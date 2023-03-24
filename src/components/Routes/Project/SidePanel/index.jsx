@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { markdownToJSX } from "@/helpers/utils";
 
 import styles from "./main.module.styl";
-import Icon from "../../../ui/Icon";
+import Icon from "../../../UI/Icon";
 import { useData, useNavigation } from "@/stores";
 
 const SidePanel = ({ label, subtitle, infos, type, id }) => {
