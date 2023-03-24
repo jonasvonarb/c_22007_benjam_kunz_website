@@ -1,0 +1,80 @@
+@import '../../../styles/_variables'
+
+
+.container
+    width: 100vw
+    position: fixed
+    bottom: 0
+    left: 0 
+    flex-direction: column 
+    z-index 80
+    transition: transform 0.5s, opacity 0.2s 0.3s
+    opacity 0
+    transform translateY(calc(var(--index-height) + 15px))
+    pointer-events: none
+    small_font-alt()
+    > .header
+        margin-left: calc((100vw - max(25vw, 400px)) / 3 * 2)
+        width: calc(max(25vw, 400px) + calc((100vw - max(25vw, 400px)) / 3))
+        border-left 0.5px solid black
+        background: var(--benj-yellow)
+        display: flex
+        flex-direction: column
+        cursor: pointer
+    &.active
+        width: 100vw
+        transition: transform 0.5s
+        transform translateY(0)
+        opacity 1
+        pointer-events: auto
+    > .header
+        .headerIndex
+            display flex
+            padding-left 0.5rem
+            justify-content: space-between
+        .groups
+            width: 100%
+            display: flex
+            flex-direction row
+            .group
+                padding 0rem 0.6rem
+                width: 33.3333%
+                &.active
+                    background: white
+            :hover
+                background white
+    .index
+        overflow-x: scroll
+        overflow-y: hidden
+        background: white
+        display: flex
+        flex-direction: column 
+        height: var(--index-height)
+        .group
+            display: flex
+            gap 0.3rem
+            height: 100%
+            .projects
+                position relative
+                overflow: hidden
+                height: 100%
+                width: calc(var(--index-height) * 4 / 3)
+                padding: .3rem 0
+                img
+                    height 100%
+                    width: 100%
+                    object-fit: cover
+                .title
+                    position absolute
+                    bottom: 0
+                    left: 0
+                    text-transform: uppercase
+                    background: white
+                    padding .5rem 1rem .5rem .5rem
+
+.container *::-webkit-scrollbar 
+  display: none;
+
+.container > *
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */

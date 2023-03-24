@@ -1,0 +1,88 @@
+.wrapper
+    position fixed
+    top: 0
+    left 0
+    height 100vh
+    width: 100vw
+    &.blur
+        opacity 0.2
+
+
+.container
+    position fixed
+    top: 0
+    left 0
+    display: flex
+    flex-direction: column
+    height 100vh
+    width: 100vw
+    background: white
+    transition: opacity 0.5s
+    &.blur
+        pointer-events: none
+    .colorRectContainer
+        height: 22px
+        display: flex
+        justify-content: space-around
+        div
+            width: 100%
+            background var(--benj-gray)
+        :nth-child(5)
+        :nth-child(2)
+        :nth-child(11)
+        :nth-child(8)
+            opacity 66%
+        :nth-child(6)
+        :nth-child(3)
+        :nth-child(12)
+        :nth-child(9)
+            opacity 33%
+        :nth-child(4)
+        :nth-child(5)
+        :nth-child(6)
+        :nth-child(10)
+        :nth-child(11)
+        :nth-child(12)
+            background var(--benj-yellow)
+    .title
+        color var(--benj-yellow)
+        width: 100%
+        display: flex
+        align-items: flex-start
+        p
+
+            padding var(--padding--element)
+            padding-top 7.5rem
+            padding-left 1.4rem 
+            padding-bottom 1.4rem 
+            background var(--benj-gray)
+            title_font()
+            width: 50%
+            flex-shrink: 1
+    .galerie
+        display: flex
+        height: calc(100% - 380px)
+        width: 100vw
+        overflow-x: scroll
+        overscroll-behavior none
+        .projects
+            position relative
+            height: 100%
+            padding 0.5rem
+            .image
+            .image > span
+                height: 100%
+            .titleProjects
+                z-index: 90
+                position absolute
+                top: 0
+                left: 0
+                text-transform: uppercase
+                background: white
+                color: black
+                padding .5rem 1rem .1rem .5rem
+
+:global(.lazy-load-image-background)
+    background-color: var(--benj-yellow)
+:global(.lazy-load-image-loaded)
+    background-color: transparent

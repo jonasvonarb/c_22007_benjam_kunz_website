@@ -1,0 +1,90 @@
+@import '../../../styles/_variables'
+
+
+.container
+    position fixed
+    overflow: hidden
+    left: 0 
+    bottom 0
+    height: 100vh
+    width: calc(100vw - (max(25vw, 400px) + calc((100vw - max(25vw, 400px)) / 3)))
+    min-width 800px
+    min-width 1000px
+    z-index 500
+    display: flex
+    flex-direction: column
+    justify-content: end
+    pointer-events: none
+    transform: translateY(100%)
+    transition: all 0.5s
+    &.active
+        transform: translateY(0)
+    .header
+        height: 45px
+        border-right solid black 1px
+        flex-shrink: 0
+        pointer-events: all
+        cursor: pointer
+        small_font-alt()
+        background-color: var(--benj-yellow)
+        text-transform: uppercase
+        .title
+            display flex
+            justify-content: space-between
+            padding .2rem 0.5rem
+            height: 50%
+        .nav
+            display flex
+            height: 50%
+            .navItem
+                padding .2rem 0.5rem
+                width: 50%
+                cursor pointer
+                &.active
+                    background white
+    .site
+        flex-shrink: 1
+        pointer-events: all
+        display flex
+        background-color: white
+        gap: var(--padding)
+        padding: var(--padding)
+        padding-top 9rem
+        max-height: calc(100% - 45px)
+        transition: all 0.5s
+        border-right solid black 1px
+        .left
+            flex-shrink: 1
+            width: calc(100% - 100px)
+            .imageWrapper
+                width 100%
+                img
+                    width: 100% 
+                    object-fit contain
+        .right
+            width: 100px
+            flex-shrink 0
+            display: flex
+            flex-direction: column
+            gap: 3rem
+            .impressumButton
+                cursor pointer
+                position absolute
+                bottom: var(--padding)
+                small_font-alt()
+            .impressum
+                position absolute
+                transition: transform 0.5s
+                padding:  var(--padding)
+                background-color: white
+                height: 100%
+                width: 34%
+                transform: translateY(100%)
+                &.active
+                    transform: translateY(0)
+                .closeButton
+                    cursor pointer
+                    position absolute
+                    top: var(--padding)
+                    right: var(--padding)
+

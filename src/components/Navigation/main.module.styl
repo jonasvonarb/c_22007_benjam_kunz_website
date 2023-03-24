@@ -1,0 +1,40 @@
+@import '../../styles/_variables'
+
+.container
+    nav 
+        small_font-alt()
+        width: 75vw
+        max-width: calc(100vw - 400px)
+        position: fixed
+        bottom: 0
+        left: 0 
+        margin-left: -0.05rem
+        margin-right: 0.5rem
+        z-index 70
+        height var(--height-footer)
+        > div
+        > a
+            height: 100%
+            width: 33%
+            background-color: red
+            position absolute
+            border-left: var(--border)
+            padding-left var(--padding-element)
+            cursor: pointer
+            display: flex
+            background: white
+            text-decoration: none
+            padding-left:  0.5rem
+            transition: left 0.5s
+            &.home
+                left: 0
+                &.hidden
+                    left: -33.33333334%
+            &.index
+                left 66.66666667%
+            &.about
+                &.left
+                    left 0%
+                &.right
+                    left 33.33333334%
+            
