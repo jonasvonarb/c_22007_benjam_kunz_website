@@ -13,10 +13,11 @@
     overflow-x: scroll
     overflow-y: hidden
     overscroll-behavior: none
-    cursor: none
-    pointer-events: none
+    cursor: none !important
+    pointer-events: none 
     .arrowLeft
     .arrowRight
+        cursor: none
         pointer-events: auto
         color: white
         position fixed
@@ -86,11 +87,12 @@
     transform: translate(-50%, -50%)
     color: rgb(200,200,200)
     medium_font-alt()
+    cursor none !important
     mix-blend-mode: exclusion
     pointer-events: none !important
     // transition: opacity  1s
     &.scrolling
-        opacity 0.2
+        // opacity 0.2
         // gap 20px
         // color: var(--benj-yellow)
     .arrowInline
