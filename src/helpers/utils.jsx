@@ -1,5 +1,7 @@
 import { marked } from "marked";
 
+import React from "react";
+
 const getTagBySlug = (slug, list) => {
   const _tag = Object.values(list).find(
     (item) => item["schema:identifier"] === slug

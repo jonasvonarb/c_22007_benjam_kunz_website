@@ -1,3 +1,6 @@
+@import '../../../../styles/_variables'
+
+
 .container--full
 .container--scroll
     position fixed
@@ -10,17 +13,23 @@
     overflow-x: scroll
     overflow-y: hidden
     overscroll-behavior: none
+    cursor: none
     .arrowLeft
     .arrowRight
+        color: white
         position fixed
-        right 10px
-        top: 2px
-        transform: translateY(50%)
-        height: 30px
-        cursor pointer
+        right 0
+        top 0
+        height: 100vh
+        width: 50vw
+        z-index: 500
+        &.blocked
+            pointer-events: none
     .arrowLeft
-        left: 10px
+        left: 0
         right unset
+
+
 
 .imageContainer > span
 .videoContainer > video
@@ -65,3 +74,29 @@
 .container--scroll 
   -ms-overflow-style: none;  /* IE and Edge */
   scrollbar-width: none;  /* Firefox */
+
+.cursor
+    position fixed
+    display: flex
+    justify-content: center
+    gap 6px
+    z-index 10000000
+    transform: translate(-50%, -50%)
+    color: rgb(200,200,200)
+    medium_font-alt()
+    mix-blend-mode: exclusion
+    pointer-events: none !important
+    // transition: opacity  1s
+    &.scrolling
+        opacity 0.2
+        // gap 20px
+        // color: var(--benj-yellow)
+    .arrowInline
+        filter: invert() brightness(0.5)
+        height: 18px
+        opacity 0
+        &.activeArrow
+            opacity 1
+
+
+    
