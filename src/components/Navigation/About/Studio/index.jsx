@@ -1,4 +1,5 @@
-import React, { useState, useEffect, Fragment } from "react";
+import React, { useState } from "react";
+
 
 import styles from "./main.module.styl";
 
@@ -6,9 +7,11 @@ import TitleComp from "@/components/UI/TitleComp";
 
 import { markdownToJSX } from "@/helpers/utils";
 import SubTitleComp from "@/components/UI/SubTitleComp";
+import Accordion from "./Accordion";
 
 const Studio = ({ about }) => {
   const studioData = about?.studio?.first;
+  const [openAccos, setOpenAccos] = useState();
 
   // Fetch all the details element.
   const details = document.querySelectorAll("details");
@@ -25,55 +28,43 @@ const Studio = ({ about }) => {
     });
   });
 
-  const Accordion = (info) => {
-    const [isOpen, setIsopen] = useState(false);
-
-    const toggleAccordion = () => {
-      setIsopen((prevState) => !prevState);
-    };
-
-    return (
-      <Fragment key={info.info_title}>
-        <SubTitleComp
-          clicked={toggleAccordion}
-          className={styles.info_title}
-          text={info.info_title}
-          icon="closing_x_bold"
-        />
-        <div className={[styles.accordion, isOpen && styles.open].join(" ")}>
-          {info.list.infos.map((iE) => {
-            return (
-              <span key={iE.listelement}>
-                {markdownToJSX(iE.listelement, {
-                  className: styles.info,
-                })}
-              </span>
-            );
-          })}
-        </div>
-      </Fragment>
-    );
+  const toggleAccordion = (index) => {
+    if (index !== openAccos) {
+      setOpenAccos(index);
+    } else {
+      setOpenAccos(undefined);
+    }
   };
 
   return (
     <>
       <div className={[styles.left].join(" ")}>
         <TitleComp text={"Info"} border={true} />
-        {markdownToJSX(studioData?.info_shop, { className: styles.intro_text })}
-        <div className={[styles.imageWrapper].join(" ")}>
-          <img
-            src={`${import.meta.env.VITE_IMAGE_URL}${
-              studioData?.single_image[0].url
-            }`}
-          />
+        <div className={[styles.scroller].join(" ")}>
+          {markdownToJSX(studioData?.info_shop, {
+            className: styles.intro_text,
+          })}
+          <div className={[styles.imageWrapper].join(" ")}>
+            <img
+              src={`${import.meta.env.VITE_IMAGE_URL}${
+                studioData?.single_image[0].url
+              }`}
+            />
+          </div>
         </div>
       </div>
       <div className={[styles.right].join(" ")}>
         <div className={[styles.infoContainer].join(" ")}>
           <TitleComp text={"Weiteres"} />
-          {studioData?.weiteres.list.map((info) => {
-            return Accordion(info);
-          })}
+          {studioData?.weiteres.list.map((info, index) => (
+            <Accordion
+              key={"accordion_" + index}
+              toggled={() => toggleAccordion(index)}
+              info={info}
+              index={index}
+              openAccos={openAccos}
+            />
+          ))}
         </div>
         <div className={[styles.secondaryContainer].join(" ")}>
           <div>
