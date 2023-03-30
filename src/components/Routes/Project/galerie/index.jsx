@@ -204,7 +204,9 @@ const Galerie = ({ videos, galerie, type }) => {
         <img
           className={[
             styles.arrowInline,
-            overGalerie === 1 && currentImage !== maxImages && styles.activeArrow,
+            overGalerie === 1 &&
+              currentImage !== maxImages &&
+              styles.activeArrow,
           ].join(" ")}
           src={`/assets/icons/arrow_right.svg`}
         />
@@ -213,7 +215,7 @@ const Galerie = ({ videos, galerie, type }) => {
         onMouseEnter={enterHanlderRight}
         onClick={nextImage}
         className={[styles.arrowRight, isScrolling && styles.blocked].join(" ")}
-      ></div>
+      />
       <div
         onMouseEnter={enterHanlderLeft}
         onClick={lastImage}

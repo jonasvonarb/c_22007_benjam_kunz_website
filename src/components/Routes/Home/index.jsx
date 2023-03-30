@@ -48,6 +48,40 @@ const Home = ({}) => {
       </p>
     </div>
   );
+  const svg = `
+    <filter
+      id="yellow-blue-acid"
+      x="-10%"
+      y="-10%"
+      width="120%"
+      height="120%"
+      filterUnits="objectBoundingBox"
+      primitiveUnits="userSpaceOnUse"
+      colorInterpolationFilters="sRGB"
+    >
+      <feColorMatrix
+        type="matrix"
+        values=".33 .33 .33 0 0
+        .33 .33 .33 0 0
+        .33 .33 .33 0 0
+        0 0 0 1 0"
+        in="SourceGraphic"
+        result="colormatrix"
+      />
+      <feComponentTransfer in="colormatrix" result="componentTransfer">
+        <feFuncR type="table" tableValues="0.9 0.59 0.94" />
+        <feFuncG type="table" tableValues="0.9 0.59 1" />
+        <feFuncB type="table" tableValues="0.9 0.59 0.48" />
+        <feFuncA type="table" tableValues="0 1" />
+      </feComponentTransfer>
+      <feBlend
+        mode="normal"
+        in="componentTransfer"
+        in2="SourceGraphic"
+        result="blend"
+      />
+    </filter>`;
+  var svgString = svg;
 
   let galerie = () => {
     return (
@@ -55,28 +89,45 @@ const Home = ({}) => {
         {homeProjects.map((project, index) => {
           const image = project.index_bild[0];
           const ratio = image.height / image.width;
-          const width = (window.innerHeight - 10  - 380 ) / ratio;
+          const width = (window.innerHeight - 10 - 380) / ratio;
           return (
             <Link key={project.id} to={`${project.name}`}>
               <div className={[styles.projects].join(" ")}>
                 <p className={[styles.titleProjects].join(" ")}>
                   {index + 1} {project.label}
                 </p>
-                <div className={["duoTone", styles.image].join(" ")}>
-                  <LazyLoadImage
-                    delayMethod="debounce"
-                    className={[styles.image].join(" ")}
-                    src={`${import.meta.env.VITE_IMAGE_URL}${image.url}`}
-                    placeholderSrc={`${import.meta.env.VITE_IMAGE_URL}${
-                      image.variations[0].url
-                    }`}
-                    threshold={window.innerWidth * 2 + 100}
-                    style={{
-                      width: width + "px",
-                      height: 100 + "%",
-                    }}
-                  />
-                </div>
+                <svg
+                  style={{ display: "none" }}
+                  dangerouslySetInnerHTML={{ __html: svgString }}
+                />
+                <LazyLoadImage
+                  delayMethod="debounce"
+                  className={[styles.image].join(" ")}
+                  src={`${import.meta.env.VITE_IMAGE_URL}${image.url}`}
+                  placeholderSrc={`${import.meta.env.VITE_IMAGE_URL}${
+                    image.variations[0].url
+                  }`}
+                  threshold={window.innerWidth * 2 + 100}
+                  wrapperClassName={[styles.imageWrapper].join(" ")}
+                  style={{
+                    width: width + "px",
+                    height: 100 + "%",
+                  }}
+                />
+                <LazyLoadImage
+                  delayMethod="debounce"
+                  className={[styles.imageFilter].join(" ")}
+                  src={`${import.meta.env.VITE_IMAGE_URL}${image.url}`}
+                  placeholderSrc={`${import.meta.env.VITE_IMAGE_URL}${
+                    image.variations[0].url
+                  }`}
+                  threshold={window.innerWidth * 2 + 100}
+                  wrapperClassName={[styles.imageFilterWrapper].join(" ")}
+                  style={{
+                    width: width + "px",
+                    height: 100 + "%",
+                  }}
+                />
               </div>
             </Link>
           );

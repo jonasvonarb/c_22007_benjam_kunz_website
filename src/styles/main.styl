@@ -37,41 +37,6 @@ a
   .big_font
     large_font()
 
-.duoTone
-  background-color white
-
-.duoTone img 
-  transition: opacity .3s
-  filter: grayscale(100%) contrast(1)
-  mix-blend-mode: multiply
-  opacity: 100 
-  opacity 0.6
-  
-.duoTone:hover img 
-  filter: grayscale(100%) contrast(1) 
-  opacity 1
-
-
-.duoTone::before 
-  transition: all .3s
-  background-color: red
-  bottom: 0
-  content: ''
-  left: 0
-  mix-blend-mode: lighten
-  position: absolute
-  top 0.5rem
-  left 0.5rem
-  width: calc(100% - 2 * 0.5rem)
-  height: calc(100% - 2 * 0.5rem)
-  z-index: 1
-  opacity 0.5
-
-.duoTone:hover::before
-  background-color: var(--benj-yellow)
-  opacity 0.5
-
-
 details > summary {
   list-style: none;
 }
