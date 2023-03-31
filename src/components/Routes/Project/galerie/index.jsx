@@ -8,7 +8,7 @@ import styles from "./main.module.styl";
 const Galerie = ({ videos, galerie, type }) => {
   if (!galerie && !type) return;
   const praefix = type === "projectPhoto" ? "full" : "scroll";
-  const [overGalerie, setOverGalerie] = useState();
+  const [overGalerie, setOverGalerie] = useState(undefined);
   const [currentImage, setCurrentImage] = useState(1);
   const location = useLocation();
   const [isScrolling, setIsScrolling] = useState(false);
@@ -57,6 +57,10 @@ const Galerie = ({ videos, galerie, type }) => {
     setOverGalerie(1);
   };
 
+  const leaveHanlder = () => {
+    setOverGalerie(undefined);
+  };
+
   const isScrollToFinished = (scrollContainer) => {
     setIsScrolling(true);
     const scrollCheck = [0, 1];
@@ -94,8 +98,6 @@ const Galerie = ({ videos, galerie, type }) => {
         : window.innerWidth;
     const x = d;
 
-    console.log(d);
-
     container.current.scrollTo({
       top: 0,
       left: container.current.scrollLeft + x,
@@ -129,8 +131,6 @@ const Galerie = ({ videos, galerie, type }) => {
         : window.innerWidth;
     const x = d;
 
-    console.log(d);
-
     container.current.scrollTo({
       top: 0,
       left: container.current.scrollLeft - x,
@@ -142,26 +142,28 @@ const Galerie = ({ videos, galerie, type }) => {
   const Video = (video, index) => {
     return (
       <div key={index + "Video"} className={[styles.videoContainer].join(" ")}>
-        <video
-          id={index + "Video"}
-          className={[styles.video].join(" ")}
-          autoPlay
-          muted
-          loop
-        >
-          <source
-            src={`${import.meta.env.VITE_IMAGE_URL}${video.url}`}
-            type="video/mp4"
-          />
-          Your browser does not support the video tag.
-        </video>
+        <span>
+          <video
+            id={index + "Video"}
+            className={[styles.video].join(" ")}
+            autoPlay
+            muted
+            loop
+          >
+            <source
+              src={`${import.meta.env.VITE_IMAGE_URL}${video.url}`}
+              type="video/mp4"
+            />
+            Your browser does not support the video tag.
+          </video>
+        </span>
       </div>
     );
   };
 
   const Image = (image, index) => {
     const ratio = image.height / image.width;
-    const width = (window.innerHeight - 25) / ratio;
+    const width = (window.innerHeight - 39) / ratio;
     return (
       <div key={index + "Image"} className={[styles.imageContainer].join(" ")}>
         <LazyLoadImage
@@ -186,38 +188,42 @@ const Galerie = ({ videos, galerie, type }) => {
       ref={container}
       className={[styles[`container--${praefix}`]].join(" ")}
     >
-      <div
-        className={[styles.cursor, isScrolling && styles.scrolling].join(" ")}
-        style={{
-          left: `${docX}px`,
-          top: `${docY}px`,
-        }}
-      >
-        <img
-          className={[
-            styles.arrowInline,
-            overGalerie === 0 && currentImage !== 1 && styles.activeArrow,
-          ].join(" ")}
-          src={`/assets/icons/arrow_left.svg`}
-        />
-        {currentImage}|{maxImages}
-        <img
-          className={[
-            styles.arrowInline,
-            overGalerie === 1 &&
-              currentImage !== maxImages &&
-              styles.activeArrow,
-          ].join(" ")}
-          src={`/assets/icons/arrow_right.svg`}
-        />
-      </div>
+      {(overGalerie === 0 || overGalerie === 1) && (
+        <div
+          className={[styles.cursor, isScrolling && styles.scrolling].join(" ")}
+          style={{
+            left: `${docX}px`,
+            top: `${docY}px`,
+          }}
+        >
+          <img
+            className={[
+              styles.arrowInline,
+              overGalerie === 0 && currentImage !== 1 && styles.activeArrow,
+            ].join(" ")}
+            src={`/assets/icons/arrow_left.svg`}
+          />
+          {currentImage}|{maxImages}
+          <img
+            className={[
+              styles.arrowInline,
+              overGalerie === 1 &&
+                currentImage !== maxImages &&
+                styles.activeArrow,
+            ].join(" ")}
+            src={`/assets/icons/arrow_right.svg`}
+          />
+        </div>
+      )}
       <div
         onMouseEnter={enterHanlderRight}
+        onMouseLeave={leaveHanlder}
         onClick={nextImage}
         className={[styles.arrowRight, isScrolling && styles.blocked].join(" ")}
       />
       <div
         onMouseEnter={enterHanlderLeft}
+        onMouseLeave={leaveHanlder}
         onClick={lastImage}
         className={[styles.arrowLeft, isScrolling && styles.blocked].join(" ")}
       />

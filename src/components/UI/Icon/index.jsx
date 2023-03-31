@@ -4,7 +4,6 @@ import styles from "./main.module.styl";
 
 const Icon = ({ name, className, clicked = () => {} }) => {
   const onClickHandler = () => {
-    console.log(clicked)
     clicked();
   };
   return (

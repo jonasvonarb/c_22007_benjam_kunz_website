@@ -3,28 +3,32 @@
 .container
     nav 
         small_font-alt()
+        cursor: pointer
         width: 75vw
         max-width: calc(100vw - 400px)
         position: fixed
         bottom: 0
         left: 0 
-        margin-left: -0.05rem
+        margin-left: 0.5rem
         margin-right: 0.5rem
         z-index 70
+        padding-top 1rem
         height var(--height-footer)
         > div
         > a
-            height: 100%
-            width: 33%
-            background-color: red
+            height calc(100% - 1rem)
+            width: 100%
             position absolute
             border-left: var(--border)
             padding-left var(--padding-element)
             display: flex
-            background: white
             text-decoration: none
             padding-left:  0.5rem
             transition: left 0.5s
+            background: white
+            &:hover
+                color: var(--benj-gray-dark)
+                border-color: var(--benj-gray-dark)
             &.home
                 left: 0
                 &.hidden

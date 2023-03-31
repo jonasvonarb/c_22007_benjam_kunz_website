@@ -1,3 +1,5 @@
+@import '../../../styles/_variables'
+
 .wrapper
     position fixed
     top: 0
@@ -66,24 +68,29 @@
         overflow-x: scroll;
         overflow-y: hidden;
         overscroll-behavior none
-        scroll-snap-type: x mandatory;
-        a
-            scroll-snap-align: start
+        .link
             .projects
                 position relative
                 height: 100%
                 padding 0.8rem 0.4rem
+                .imageFilterWrapper > img
+                    filter: url(#yellow-blue-acid);
                 .imageWrapper
                     position absolute
+                    height: calc(100% - 1.6rem)
+                    cursor pointer
                 .imageFilterWrapper
+                    height: 100%    
                     transition: opacity 0.2s
                     opacity 1
-                    filter: url(#yellow-blue-acid);
+                    cursor pointer
                     &:hover
+                        cursor pointer
                         opacity 0
                 .image > span
                     height: 100%
                 .titleProjects
+                    small_font-alt()
                     z-index: 90
                     position absolute
                     top: 0

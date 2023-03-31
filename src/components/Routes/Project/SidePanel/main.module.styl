@@ -21,16 +21,22 @@
         bottom: 0
         width: 100%
         small_font-alt()
-        border-left: var(--border)
-        padding-left var(--padding-element)
         height var(--height-footer)
-        display: flex
-        .index
-            pointer-events: all
-            width: 20%
-        .title
-            pointer-events: all
-            width: 80%
+        div
+            padding-left var(--padding-element)
+            border-left: var(--border)
+            display: flex
+            margin-top 1rem
+            height: calc(100%)
+            &:hover
+                color: var(--benj-gray-dark)
+                border-color: var(--benj-gray-dark)
+            .index
+                pointer-events: all
+                width: 20%
+            .title
+                pointer-events: all
+                width: 80%
     .info
         pointer-events: all
         height: 100%

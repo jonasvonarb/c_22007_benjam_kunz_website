@@ -8,8 +8,8 @@ import "./styles/main.styl";
 function App() {
   return (
     <div className="App">
-      <Outlet />
       <Navigation />
+      <Outlet />
     </div>
   );
 }

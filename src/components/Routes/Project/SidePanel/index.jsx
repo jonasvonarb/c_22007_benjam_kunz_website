@@ -59,11 +59,13 @@ const SidePanel = ({ label, subtitle, infos, type, id }) => {
       <div className={[styles.container].join(" ")}>
         {info()}
         <button onClick={handelVisibility} className={[styles.button]}>
-          <p className={[styles.index].join(" ")}>
-            {type?.charAt(7)}
-            {index()}
-          </p>
-          <p className={[styles.title].join(" ")}>{label}</p>
+          <div>
+            <p className={[styles.index].join(" ")}>
+              {type?.charAt(7)}
+              {index()}
+            </p>
+            <p className={[styles.title].join(" ")}>{label}</p>
+          </div>
         </button>
       </div>
     </>

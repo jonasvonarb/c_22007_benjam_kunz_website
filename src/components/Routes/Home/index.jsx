@@ -5,7 +5,8 @@ import { LazyLoadImage } from "react-lazy-load-image-component";
 import "react-lazy-load-image-component/src/effects/blur.css";
 
 import styles from "./main.module.styl";
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+
 import { useNavigation } from "../../../stores/navigation";
 
 const Home = ({}) => {
@@ -14,8 +15,9 @@ const Home = ({}) => {
   const sidePanelVisibility = useNavigation((state) => state.sidePanelIsActive);
   const activeMenu = useNavigation((state) => state.activeMenu);
   const resetOverlays = useNavigation((state) => state.resetAllOverlays);
+  const navigate = useNavigate();
 
-  //eternal loop?
+
   useEffect(() => {
     const projets = Object.values(projectsIndex).filter(
       (project) => project.homepage_index !== null
@@ -86,27 +88,32 @@ const Home = ({}) => {
   let galerie = () => {
     return (
       <div className={[styles.galerie].join(" ")}>
+        <svg
+          style={{
+            position: "fixed",
+            display: "none",
+            height: 0,
+            opacity: 0,
+            width: 0,
+            top: "-100vh",
+            left: "-100vw",
+          }}
+          dangerouslySetInnerHTML={{ __html: svgString }}
+        />
         {homeProjects.map((project, index) => {
           const image = project.index_bild[0];
           const ratio = image.height / image.width;
           const width = (window.innerHeight - 10 - 380) / ratio;
           return (
-            <Link key={project.id} to={`${project.name}`}>
+            <div className={[styles.link].join(" ")} key={project.id} onClick={() => navigate(`/${project.name}`)}>
               <div className={[styles.projects].join(" ")}>
                 <p className={[styles.titleProjects].join(" ")}>
                   {index + 1} {project.label}
                 </p>
-                <svg
-                  style={{ display: "none" }}
-                  dangerouslySetInnerHTML={{ __html: svgString }}
-                />
                 <LazyLoadImage
                   delayMethod="debounce"
                   className={[styles.image].join(" ")}
                   src={`${import.meta.env.VITE_IMAGE_URL}${image.url}`}
-                  placeholderSrc={`${import.meta.env.VITE_IMAGE_URL}${
-                    image.variations[0].url
-                  }`}
                   threshold={window.innerWidth * 2 + 100}
                   wrapperClassName={[styles.imageWrapper].join(" ")}
                   style={{
@@ -126,10 +133,11 @@ const Home = ({}) => {
                   style={{
                     width: width + "px",
                     height: 100 + "%",
+                    backgroundColor: "white"
                   }}
                 />
               </div>
-            </Link>
+            </div>
           );
         })}
       </div>
