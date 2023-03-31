@@ -141,7 +141,7 @@ const Galerie = ({ videos, galerie, type }) => {
 
   const Video = (video, index) => {
     return (
-      <div key={index + "Video"} className={[styles.videoContainer].join(" ")}>
+      <div key={index + "Video" + video.url} className={[styles.videoContainer].join(" ")}>
         <span>
           <video
             id={index + "Video"}
