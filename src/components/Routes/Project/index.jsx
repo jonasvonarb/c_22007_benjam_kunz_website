@@ -5,7 +5,6 @@ import { useData, useNavigation } from "@/stores";
 import styles from "./main.module.styl";
 import Galerie from "./galerie";
 import SidePanel from "./SidePanel";
-
 const dataQuery = `{
   list {
     __typename
@@ -35,6 +34,47 @@ const dataQuery = `{
     }
   }
 }`;
+const shopQuery = `{
+  list {
+    __typename
+    id
+    name
+    subtitle
+    infos{
+      ... on RepeaterInfosPageArray {
+        list {
+          info_title
+          info_text
+        }
+      }
+    }
+    videos {
+      url
+      description
+    }
+    galerie {
+      width
+      height
+      url
+      description
+      variations{
+        url
+      }
+    }
+    ... on ProjectShopPage {
+      shop_galerie {
+        width
+        height
+        url
+        description
+        variations{
+          url
+        }
+      }
+      info_shop
+    }
+  }
+}`;
 
 const Project = ({}) => {
   const fetch = useData((state) => state.fetch);
@@ -43,9 +83,7 @@ const Project = ({}) => {
     useData((state) => {
       return { ...state.keys["INDEX"] };
     }) || {};
-  const [projectInfo, setProjectInfo] = useState();
   const [project, setProject] = useState();
-  const getProjectById = useData((state) => state.getProjectById);
   const getProjectBySlug = useData((state) => state.getProjectBySlug);
   const [type, setType] = useState();
   const sidePanelVisibility = useNavigation((state) => state.sidePanelIsActive);
@@ -67,7 +105,9 @@ const Project = ({}) => {
     const id = _project?.["id"];
     if (!id || !type) return;
     const query = {
-      query: ` {${type}(s: "id=${id}")${dataQuery}}`,
+      query: ` {${type}(s: "id=${id}")${
+        type === "projectShop" ? shopQuery : dataQuery
+      }}`,
     };
     fetch(query, "INDEX", transformer);
   }, [type, params?.projectName]);
@@ -103,6 +143,8 @@ const Project = ({}) => {
         subtitle={project?.subtitle}
         infos={project?.infos}
         type={project?.__typename}
+        shop_info={project?.info_shop}
+        shop_galerie={project?.shop_galerie}
         id={project?.id}
       />
     </div>
