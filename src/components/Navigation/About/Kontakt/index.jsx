@@ -53,31 +53,39 @@ const Contact = ({ about }) => {
         </MapContainer>
       </div>
       <div className={[styles.right].join(" ")}>
-        <div>
-          <TitleComp className={styles.title} border={true} text={"Mail"} />
-          <a href={`mailto:${contactData?.e_mail}`}>{contactData?.e_mail}</a>
-        </div>
-        <div>
-          <TitleComp className={styles.title} border={true} text={"Addresse"} />
+        <div className={[styles.group].join(" ")}>
           <div>
-            {markdownToJSX(contactData?.adresse, {
-              className: styles.adresse,
-            })}
+            <TitleComp className={styles.title} border={true} text={"Mail"} />
+            <a href={`mailto:${contactData?.e_mail}`}>{contactData?.e_mail}</a>
+          </div>
+          <div>
+            <TitleComp
+              className={styles.title}
+              border={true}
+              text={"Addresse"}
+            />
+            <div>
+              {markdownToJSX(contactData?.adresse, {
+                className: styles.adresse,
+              })}
+            </div>
           </div>
         </div>
-        <div>
-          <TitleComp
-            className={styles.title}
-            border={true}
-            text={"Design + Inhalt"}
-          />
-          {markdownToJSX(contactData?.design_inhalt, {
-            className: styles.design,
-          })}
-        </div>
-        <div>
-          <TitleComp className={styles.title} border={true} text={"Code"} />
-          {markdownToJSX(contactData?.code, { className: styles.code })}
+        <div className={[styles.group].join(" ")}>
+          <div>
+            <TitleComp
+              className={styles.title}
+              border={true}
+              text={"Design + Inhalt"}
+            />
+            {markdownToJSX(contactData?.design_inhalt, {
+              className: styles.design,
+            })}
+          </div>
+          <div>
+            <TitleComp className={styles.title} border={true} text={"Code"} />
+            {markdownToJSX(contactData?.code, { className: styles.code })}
+          </div>
         </div>
         <div className={styles.impressumButton} onClick={toggleImpressum}>
           Impressum, Datenschutz

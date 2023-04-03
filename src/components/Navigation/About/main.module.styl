@@ -8,8 +8,8 @@
     bottom 0
     height: 100vh
     width: calc(100vw - (max(25vw, 400px) + calc((100vw - max(25vw, 400px)) / 3)))
-    min-width 900px
-    max-width 1200px
+    min-width 950px
+    max-width 950px
     z-index 500
     display: flex
     flex-direction: column
@@ -26,20 +26,25 @@
         pointer-events: all
         small_font-alt()
         background-color: var(--benj-yellow)
-        text-transform: uppercase
         .title
             display flex
             justify-content: space-between
             padding .2rem 0.5rem
             height: 50%
+            .closeButton
+                padding: 0.3rem
+                &:hover
+                    background-color var(--benj-gray) 
         .nav
             display flex
             height: 50%
             .navItem
                 padding .2rem 0.5rem
                 width: 50%
+                &:hover
+                    background-color var(--benj-gray) 
                 &.active
-                    background white
+                    background-color white
     .site
         flex-shrink: 1
         pointer-events: all

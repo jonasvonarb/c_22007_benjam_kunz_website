@@ -8,7 +8,7 @@ const Icon = ({ name, className, clicked = () => {} }) => {
   };
   return (
     <img
-      className={[className, "icon"].join(" ")}
+      className={[className, styles.icon, "icon"].join(" ")}
       onClick={onClickHandler}
       src={`/assets/icons/${name}.svg`}
     />

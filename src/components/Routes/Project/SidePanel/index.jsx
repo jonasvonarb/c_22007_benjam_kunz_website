@@ -4,6 +4,7 @@ import { markdownToJSX } from "@/helpers/utils";
 import styles from "./main.module.styl";
 import Icon from "../../../UI/Icon";
 import { useData, useNavigation } from "@/stores";
+import { useSearchParams } from "react-router-dom";
 
 const SidePanel = ({
   label,
@@ -20,9 +21,11 @@ const SidePanel = ({
   );
   const indexSorted = useData((state) => state.projectIdsSorted);
   const [activeImage, setActiveImage] = useState();
+  let [, setSearchParams] = useSearchParams();
 
   const handelVisibility = (action) => {
     toggleSidePanel(action || "TOGGLE");
+    setSearchParams({});
   };
 
   const index = () => {

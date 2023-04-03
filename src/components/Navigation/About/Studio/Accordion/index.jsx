@@ -34,6 +34,7 @@ const Accordion = ({ info, index, openAccos, toggled }) => {
         className={styles.info_title}
         text={info.info_title}
         icon="closing_x_bold"
+        open={openAccos === index}
       />
       <div ref={accordion} className={[styles.accordion].join(" ")}>
         {info.list.infos.map((iE) => {

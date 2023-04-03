@@ -5,7 +5,7 @@ import { LazyLoadImage } from "react-lazy-load-image-component";
 import "react-lazy-load-image-component/src/effects/blur.css";
 
 import styles from "./main.module.styl";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 
 import { useNavigation } from "../../../stores/navigation";
 
@@ -16,7 +16,12 @@ const Home = ({}) => {
   const activeMenu = useNavigation((state) => state.activeMenu);
   const resetOverlays = useNavigation((state) => state.resetAllOverlays);
   const navigate = useNavigate();
+  let [searchParams, setSearchParams] = useSearchParams();
 
+  const resetOverlaysAction = () => {
+    setSearchParams({});
+    resetOverlays();
+  };
 
   useEffect(() => {
     const projets = Object.values(projectsIndex).filter(
@@ -105,7 +110,11 @@ const Home = ({}) => {
           const ratio = image.height / image.width;
           const width = (window.innerHeight - 10 - 380) / ratio;
           return (
-            <div className={[styles.link].join(" ")} key={project.id} onClick={() => navigate(`/${project.name}`)}>
+            <div
+              className={[styles.link].join(" ")}
+              key={project.id}
+              onClick={() => navigate(`/${project.name}`)}
+            >
               <div className={[styles.projects].join(" ")}>
                 <p className={[styles.titleProjects].join(" ")}>
                   {index + 1} {project.label}
@@ -133,7 +142,7 @@ const Home = ({}) => {
                   style={{
                     width: width + "px",
                     height: 100 + "%",
-                    backgroundColor: "white"
+                    backgroundColor: "white",
                   }}
                 />
               </div>
@@ -146,18 +155,23 @@ const Home = ({}) => {
 
   return (
     <div
-      onClick={(sidePanelVisibility || activeMenu) && resetOverlays}
+      onClick={
+        (sidePanelVisibility ||
+          activeMenu ||
+          searchParams.get("p") === "s" ||
+          searchParams.get("p") === "k") &&
+        resetOverlaysAction
+      }
       className={[
         styles.wrapper,
-        (sidePanelVisibility || activeMenu) && styles.blur,
+        (sidePanelVisibility ||
+          activeMenu ||
+          searchParams.get("p") === "s" ||
+          searchParams.get("p") === "k") &&
+          styles.blur,
       ].join(" ")}
     >
-      <div
-        className={[
-          styles.container,
-          (sidePanelVisibility || activeMenu) && styles.blur,
-        ].join(" ")}
-      >
+      <div className={[styles.container].join(" ")}>
         {galerie()}
         {colorRects()}
         {textTitle()}

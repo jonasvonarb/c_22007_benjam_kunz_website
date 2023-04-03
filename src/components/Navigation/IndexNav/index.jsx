@@ -130,6 +130,7 @@ const IndexNav = ({}) => {
   };
 
   const closeMenu = () => {
+    console.log("test");
     setActiveMenu(null);
   };
 
@@ -140,18 +141,17 @@ const IndexNav = ({}) => {
           <p>Index</p>
           <Icon
             name="closing_x"
-            className={styles.icon}
-            clicked={() => handelVisibility(false)}
+            className={[styles.icon, styles.closingX].join(" ")}
           />
         </div>
         <div className={[styles.groups].join(" ")}>
-          {Object.keys(indexSorted).map((group, index) => (
+          {Object.keys(indexSorted).map((group, ind) => (
             <div
               key={group}
-              index={index}
+              index={ind}
               className={[
                 styles.group,
-                activeGroup === index && styles.active,
+                activeGroup === ind && styles.active,
               ].join(" ")}
               onClick={groupClickHandler}
             >
@@ -165,8 +165,8 @@ const IndexNav = ({}) => {
     );
   };
 
-  const Group = (group, groupName, index) => {
-    return group.map((projectId) => (
+  const Group = (group, groupName) => {
+    return group.map((projectId, index) => (
       <Link
         onClick={closeMenu}
         key={projectId}
@@ -177,7 +177,7 @@ const IndexNav = ({}) => {
           className={[styles.projects].join(" ")}
         >
           <div className={[styles.title].join(" ")}>
-            {groupName.charAt(0).toUpperCase() + (index + 1)}{" "}
+            {groupName.charAt(7).toUpperCase().replace("P", "F") + (index + 1)}{" "}
             {projectsIndex[projectId]?.label}
           </div>
           <LazyLoadImage
@@ -209,7 +209,7 @@ const IndexNav = ({}) => {
           (groupName, index) =>
             activeGroup === index && (
               <div key={groupName} className={[styles.group].join(" ")}>
-                {Group(indexSorted[groupName], groupName, index)}
+                {Group(indexSorted[groupName], groupName)}
               </div>
             )
         )}

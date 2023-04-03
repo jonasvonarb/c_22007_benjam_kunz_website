@@ -9,12 +9,24 @@ import About from "./About";
 const Navigation = () => {
   const setActiveMenu = useNavigation((state) => state.setActiveMenu);
   const location = useLocation();
-  let [searchParams, setSearchParams] = useSearchParams();
+  let [, setSearchParams] = useSearchParams();
+  const toggleSidePanel = useNavigation(
+    (state) => state.toggleSidePanelIsActive
+  );
 
   const setMenu = (event) => {
     setActiveMenu(event.target.innerText.toLowerCase());
+    setSearchParams({});
+    toggleSidePanel(false);
   };
-
+  const openAbout = () => {
+    setSearchParams({ p: "s" });
+    toggleSidePanel(false);
+  };
+  const closeAll = () => {
+    setSearchParams({});
+    toggleSidePanel(false);
+  };
   return (
     <div className={[styles.container].join(" ")}>
       <IndexNav />
@@ -26,6 +38,7 @@ const Navigation = () => {
             location.pathname === "/" && styles.hidden,
           ].join(" ")}
           to=""
+          onClick={closeAll}
         >
           Home
         </NavLink>
@@ -34,7 +47,7 @@ const Navigation = () => {
             styles.about,
             location.pathname !== "/" ? styles.right : styles.left,
           ].join(" ")}
-          onClick={() => setSearchParams({ p: "s" })}
+          onClick={openAbout}
         >
           About
         </div>

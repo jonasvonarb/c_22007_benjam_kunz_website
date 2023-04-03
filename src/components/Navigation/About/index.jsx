@@ -66,7 +66,6 @@ const query = {
 const About = ({}) => {
   const fetch = useData((state) => state.fetch);
   const about = useData((state) => state.keys["ABOUT"]?.data) || [];
-  const [iActive, setImActive] = useState(false);
   let [searchParams, setSearchParams] = useSearchParams();
   let [prevParam, setPrevParam] = useState("");
 

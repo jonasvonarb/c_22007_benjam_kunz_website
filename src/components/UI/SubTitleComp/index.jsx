@@ -10,6 +10,7 @@ const SubTiotleComp = ({
   icon,
   className,
   clicked,
+  open
 }) => {
   const clickHandler = () => {
     clicked();
@@ -20,7 +21,7 @@ const SubTiotleComp = ({
       onClick={clickHandler}
       className={[styles.container, className].join(" ")}
     >
-      {text} <Icon name={icon || "closing_x"} />
+      {text} <Icon className={open && styles.open} name={icon || "closing_x"} />
     </div>
   ) : !link ? (
     <a

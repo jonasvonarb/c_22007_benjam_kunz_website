@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from "react";
-import { useLocation, useParams } from "react-router-dom";
+import { useLocation, useParams, useSearchParams } from "react-router-dom";
 import { useData, useNavigation } from "@/stores";
 
 import styles from "./main.module.styl";
 import Galerie from "./galerie";
 import SidePanel from "./SidePanel";
+
 const dataQuery = `{
   list {
     __typename
@@ -89,6 +90,12 @@ const Project = ({}) => {
   const sidePanelVisibility = useNavigation((state) => state.sidePanelIsActive);
   const activeMenu = useNavigation((state) => state.activeMenu);
   const resetOverlays = useNavigation((state) => state.resetAllOverlays);
+  let [searchParams, setSearchParams] = useSearchParams();
+
+  const resetOverlaysAction = () => {
+    setSearchParams({});
+    resetOverlays();
+  };
 
   useEffect(() => {
     const __typename = getProjectBySlug(params?.projectName)?.["__typename"];
@@ -126,10 +133,20 @@ const Project = ({}) => {
   return (
     <div className={[styles.container].join(" ")}>
       <div
-        onClick={(sidePanelVisibility || activeMenu) && resetOverlays}
+        onClick={
+          (sidePanelVisibility ||
+            activeMenu ||
+            searchParams.get("p") === "s" ||
+            searchParams.get("p") === "k") &&
+          resetOverlaysAction
+        }
         className={[
           styles.wrapper,
-          (sidePanelVisibility || activeMenu) && styles.blur,
+          (sidePanelVisibility ||
+            activeMenu ||
+            searchParams.get("p") === "s" ||
+            searchParams.get("p") === "k") &&
+            styles.blur,
         ].join(" ")}
       >
         <Galerie
