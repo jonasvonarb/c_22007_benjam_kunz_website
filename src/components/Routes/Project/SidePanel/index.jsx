@@ -1,8 +1,9 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { markdownToJSX } from "@/helpers/utils";
 
 import styles from "./main.module.styl";
 import Icon from "../../../UI/Icon";
+import Chevron from "../../../UI/Chevron";
 import { useData, useNavigation } from "@/stores";
 import { useSearchParams } from "react-router-dom";
 
@@ -22,6 +23,7 @@ const SidePanel = ({
   const indexSorted = useData((state) => state.projectIdsSorted);
   const [activeImage, setActiveImage] = useState();
   let [, setSearchParams] = useSearchParams();
+  const [isLoading, setIsLoading] = useState(false);
 
   const handelVisibility = (action) => {
     toggleSidePanel(action || "TOGGLE");
@@ -43,6 +45,13 @@ const SidePanel = ({
       </div>
     </div>
   );
+
+  const changeImage = (ndx) => {
+    setIsLoading(true);
+    if (ndx <= shop_galerie.length && ndx >= 0) setActiveImage(ndx);
+    if (ndx >= shop_galerie.length) setActiveImage(1);
+    if (ndx <= 0) setActiveImage(shop_galerie.length);
+  };
 
   const shopGalerie = () => {
     const openImage = (index) => {
@@ -97,16 +106,41 @@ const SidePanel = ({
           <div className={[styles.galerieTitle].join(" ")}>Sujetübersicht</div>
         )}
         {activeImage && (
-          <div className={styles.imageContainer}>
+          <div className={[styles.imageContainer].join(" ")}>
             <Icon
               name="closing_x"
               className={styles.icon}
               clicked={() => setActiveImage(undefined)}
             />
+            <div
+              className={styles.iconLeft}
+              onClick={() => changeImage(activeImage - 1)}
+            >
+              <Chevron left={true} />
+            </div>
+            <div
+              className={styles.iconRight}
+              onClick={() => changeImage(activeImage + 1)}
+            >
+              <Chevron />
+            </div>
             <img
-              className={[styles.previewImage].join(" ")}
+              className={[
+                styles.previewImage,
+                isLoading ? styles.loading : styles.isLoaded,
+              ].join(" ")}
+              onLoad={() => setIsLoading(false)}
               src={`${import.meta.env.VITE_IMAGE_URL}${
                 shop_galerie[+activeImage - 1].url
+              }`}
+            />
+            <img
+              className={[
+                styles.previewImageLoader,
+                isLoading ? styles.loading : styles.isLoaded,
+              ].join(" ")}
+              src={`${import.meta.env.VITE_IMAGE_URL}${
+                shop_galerie[+activeImage - 1].variations[0].url
               }`}
             />
           </div>
@@ -132,11 +166,10 @@ const SidePanel = ({
         {info()}
         <button onClick={handelVisibility} className={[styles.button]}>
           <div>
-            <p className={[styles.index].join(" ")}>
+            <p className={[styles.title].join(" ")}>
               {type?.charAt(7)}
-              {index()}
+              {index()} {label}
             </p>
-            <p className={[styles.title].join(" ")}>{label}</p>
           </div>
         </button>
       </div>

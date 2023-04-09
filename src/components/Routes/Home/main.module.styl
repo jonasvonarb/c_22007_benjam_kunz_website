@@ -63,12 +63,33 @@
             width: 50%
             flex-shrink: 1
     .galerie
+        position relative
         display: flex
         height: calc(100% - 380px)
         width: 100vw
         overflow-x: scroll;
         overflow-y: hidden;
         overscroll-behavior none
+        .next
+        .last
+            position fixed
+            top calc((100% - 380px) / 2 )
+            left 0
+            background-color: white
+            z-index 1000
+            padding: 0.4rem
+            margin: auto
+            display: flex
+            cursor: pointer
+            &:hover
+                background-color: var(--benj-yellow)
+        .next 
+            right 0
+            left: unset
+        .inactive
+            opacity 0.5
+            &:hover
+                background-color: white
         .link
             .projects
                 position relative

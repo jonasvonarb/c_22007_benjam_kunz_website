@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useData, useNavigation } from "@/stores";
 
 import styles from "./main.module.styl";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Icon from "../../UI/Icon";
 import { LazyLoadImage } from "react-lazy-load-image-component";
 
@@ -98,6 +98,7 @@ const IndexNav = ({}) => {
   const setActiveMenu = useNavigation((state) => state.setActiveMenu);
   const activeGroup = useNavigation((state) => state.activeGroup);
   const setActiveGroup = useNavigation((state) => state.setActiveGroup);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const transformer = (data) => {
@@ -127,6 +128,11 @@ const IndexNav = ({}) => {
   const groupClickHandler = (event) => {
     const index = event.target.getAttribute("index");
     setActiveGroup(+index);
+  };
+
+  const linkTo = (to) => {
+    closeMenu();
+    navigate(`${projectsIndex[to]?.name}`);
   };
 
   const closeMenu = () => {
@@ -167,10 +173,10 @@ const IndexNav = ({}) => {
 
   const Group = (group, groupName) => {
     return group.map((projectId, index) => (
-      <Link
-        onClick={closeMenu}
+      <div
+        onClick={() => linkTo(projectId)}
+        className={styles.link}
         key={projectId}
-        to={`${projectsIndex[projectId]?.name}`}
       >
         <div
           key={projectsIndex[projectId]?.id}
@@ -192,7 +198,7 @@ const IndexNav = ({}) => {
             }}
           />
         </div>
-      </Link>
+      </div>
     ));
   };
 

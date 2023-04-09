@@ -70,7 +70,7 @@ const Galerie = ({ videos, galerie, type }) => {
         setIsScrolling(false);
         clearInterval(checkIfScrollToIsFinished);
       }
-    }, 25);
+    }, 32);
   };
 
   const nextImage = () => {
@@ -81,9 +81,9 @@ const Galerie = ({ videos, galerie, type }) => {
     const h1 = fullGalerie[currentImage - 1].height;
     const h2 = fullGalerie[currentImage].height;
     const w1 =
-      ((window.innerHeight - 25) / h1) * fullGalerie[currentImage - 1].width;
+      ((window.innerHeight - 32) / h1) * fullGalerie[currentImage - 1].width;
     const w2 =
-      ((window.innerHeight - 25) / h2) * fullGalerie[currentImage].width;
+      ((window.innerHeight - 32) / h2) * fullGalerie[currentImage].width;
 
     const ws1 = window.innerWidth / 2 - (window.innerWidth - w1);
     const d =
@@ -96,10 +96,11 @@ const Galerie = ({ videos, galerie, type }) => {
             2
         : window.innerWidth;
     const x = d;
+    console.log(x);
 
     container.current.scrollTo({
       top: 0,
-      left: container.current.scrollLeft + x,
+      left: container.current.scrollLeft + x - 30,
       behavior: "smooth",
     });
 
@@ -114,9 +115,9 @@ const Galerie = ({ videos, galerie, type }) => {
     const h1 = fullGalerie[currentImage - 2].height;
     const h2 = fullGalerie[currentImage - 1].height;
     const w1 =
-      ((window.innerHeight - 25) / h1) * fullGalerie[currentImage - 2].width;
+      ((window.innerHeight - 32) / h1) * fullGalerie[currentImage - 2].width;
     const w2 =
-      ((window.innerHeight - 25) / h2) * fullGalerie[currentImage - 1].width;
+      ((window.innerHeight - 32) / h2) * fullGalerie[currentImage - 1].width;
 
     const ws1 = window.innerWidth / 2 - (window.innerWidth - w1);
     const d =
@@ -129,10 +130,11 @@ const Galerie = ({ videos, galerie, type }) => {
             2
         : window.innerWidth;
     const x = d;
+    console.log(x);
 
     container.current.scrollTo({
       top: 0,
-      left: container.current.scrollLeft - x,
+      left: container.current.scrollLeft - x - 30,
       behavior: "smooth",
     });
     isScrollToFinished(container.current);
@@ -165,7 +167,7 @@ const Galerie = ({ videos, galerie, type }) => {
 
   const Image = (image, index) => {
     const ratio = image.height / image.width;
-    const width = (window.innerHeight - 39) / ratio;
+    const width = Math.floor((window.innerHeight - 32 - 12) / ratio);
     return (
       <div key={index + "Image"} className={[styles.imageContainer].join(" ")}>
         <LazyLoadImage
@@ -175,10 +177,10 @@ const Galerie = ({ videos, galerie, type }) => {
           placeholderSrc={`${import.meta.env.VITE_IMAGE_URL}${
             image.variations[0].url
           }`}
-          threshold={window.innerWidth * 2 + 100}
+          threshold={window.innerWidth * 5 + 100}
           style={{
             width: width + "px",
-            height: 100 + "%",
+            height: "100%",
           }}
         />
       </div>

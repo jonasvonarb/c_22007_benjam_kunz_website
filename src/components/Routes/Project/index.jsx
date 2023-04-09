@@ -137,8 +137,8 @@ const Project = ({}) => {
           (sidePanelVisibility ||
             activeMenu ||
             searchParams.get("p") === "s" ||
-            searchParams.get("p") === "k") &&
-          resetOverlaysAction
+            searchParams.get("p") === "k") ?
+          resetOverlaysAction : null
         }
         className={[
           styles.wrapper,

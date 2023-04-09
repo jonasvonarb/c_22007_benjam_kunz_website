@@ -54,6 +54,7 @@
     .index
         overflow-x: scroll
         overflow-y: hidden
+        overscroll-behavior: none
         background: white
         display: flex
         flex-direction: column 
@@ -70,6 +71,7 @@
                 height: 100%
                 width: calc(var(--index-height) * 4 / 3)
                 padding: .3rem 0
+                cursor pointer
                 img
                     height 100%
                     width: 100%
@@ -77,9 +79,9 @@
                 .title
                     position absolute
                     bottom: 0
-                    right: 0
+                    left: 0
                     background: white
-                    padding .3rem .5rem .1rem .5rem
+                    padding .3rem .3rem .1rem .3rem
 
 .container *::-webkit-scrollbar 
   display: none;

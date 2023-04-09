@@ -25,6 +25,8 @@ const Contact = ({ about }) => {
   };
 
   const Impressum = () => {
+    const imp = about?.contact?.first?.impressum;
+    console.log(imp);
     return (
       <div className={[styles.impressum, iActive && styles.active].join(" ")}>
         <Icon
@@ -32,7 +34,7 @@ const Contact = ({ about }) => {
           className={styles.closeButton}
           clicked={toggleImpressum}
         />
-        test
+        <div dangerouslySetInnerHTML={{ __html: imp }} />
       </div>
     );
   };
@@ -62,7 +64,7 @@ const Contact = ({ about }) => {
             <TitleComp
               className={styles.title}
               border={true}
-              text={"Addresse"}
+              text={"Adresse"}
             />
             <div>
               {markdownToJSX(contactData?.adresse, {

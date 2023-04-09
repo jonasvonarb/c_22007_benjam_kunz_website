@@ -8,6 +8,8 @@ import styles from "./main.module.styl";
 import { useNavigate, useSearchParams } from "react-router-dom";
 
 import { useNavigation } from "../../../stores/navigation";
+import { useRef } from "react";
+import Chevron from "../../UI/Chevron";
 
 const Home = ({}) => {
   const projectsIndex = useData((state) => state.keys["INDEX"]) || {};
@@ -88,11 +90,45 @@ const Home = ({}) => {
         result="blend"
       />
     </filter>`;
-  var svgString = svg;
+  const svgString = svg;
+
+  const [currentPos, setCurrentpos] = useState(0);
 
   let galerie = () => {
+    const galerie = useRef();
+    const nextImage = () => {
+      const _curretnPos = galerie.current.scrollLeft;
+      setCurrentpos(_curretnPos + window.innerWidth / 2);
+      galerie.current.scroll({
+        top: 0,
+        left: _curretnPos + window.innerWidth / 2,
+        behavior: "smooth",
+      });
+    };
+    const lastImage = () => {
+      const _curretnPos = galerie.current.scrollLeft;
+      if (_curretnPos <= 5) return;
+      setCurrentpos(_curretnPos - window.innerWidth / 2);
+      galerie.current.scroll({
+        top: 0,
+        left: _curretnPos - window.innerWidth / 2,
+        behavior: "smooth",
+      });
+    };
+
     return (
-      <div className={[styles.galerie].join(" ")}>
+      <div ref={galerie} className={[styles.galerie].join(" ")}>
+        <div
+          onClick={lastImage}
+          className={[styles.last, currentPos === 0 && styles.inactive].join(
+            " "
+          )}
+        >
+          <Chevron left={true} />
+        </div>
+        <div onClick={nextImage} className={[styles.next].join(" ")}>
+          <Chevron />
+        </div>
         <svg
           style={{
             position: "fixed",
@@ -156,11 +192,12 @@ const Home = ({}) => {
   return (
     <div
       onClick={
-        (sidePanelVisibility ||
-          activeMenu ||
-          searchParams.get("p") === "s" ||
-          searchParams.get("p") === "k") &&
-        resetOverlaysAction
+        sidePanelVisibility ||
+        activeMenu ||
+        searchParams.get("p") === "s" ||
+        searchParams.get("p") === "k"
+          ? resetOverlaysAction
+          : null
       }
       className={[
         styles.wrapper,
