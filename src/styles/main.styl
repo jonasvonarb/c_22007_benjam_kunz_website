@@ -42,3 +42,20 @@ details > summary {
 details > summary::-webkit-details-marker {
   display: none;
 }
+
+// Transiitons
+
+.siteTrans-enter {
+  opacity: 0;
+}
+.siteTrans-enter-active {
+  opacity: 1;
+  transition: opacity 200ms;
+}
+.siteTrans-exit {
+  opacity: 1;
+}
+.siteTrans-exit-active {
+  opacity: 0;
+  transition: opacity 200ms;
+}

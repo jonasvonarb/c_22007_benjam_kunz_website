@@ -1,6 +1,8 @@
 import React, { useState, useEffect, useCallback } from "react";
 import { useData } from "@/stores";
 
+import { useMedia } from "react-use";
+
 import { LazyLoadImage } from "react-lazy-load-image-component";
 import "react-lazy-load-image-component/src/effects/blur.css";
 
@@ -19,6 +21,7 @@ const Home = ({}) => {
   const resetOverlays = useNavigation((state) => state.resetAllOverlays);
   const navigate = useNavigate();
   let [searchParams, setSearchParams] = useSearchParams();
+  const isWide = useMedia("(min-width: 900px)");
 
   const resetOverlaysAction = () => {
     setSearchParams({});
@@ -98,20 +101,21 @@ const Home = ({}) => {
     const galerie = useRef();
     const nextImage = () => {
       const _curretnPos = galerie.current.scrollLeft;
-      setCurrentpos(_curretnPos + window.innerWidth / 2);
+      const dist = isWide ? galerie.innerWidth / 2 : (galerie.innerWidth / 5) * 4;
+      setCurrentpos(_curretnPos + dist);
       galerie.current.scroll({
         top: 0,
-        left: _curretnPos + window.innerWidth / 2,
+        left: _curretnPos + dist,
         behavior: "smooth",
       });
     };
     const lastImage = () => {
       const _curretnPos = galerie.current.scrollLeft;
       if (_curretnPos <= 5) return;
-      setCurrentpos(_curretnPos - window.innerWidth / 2);
+      setCurrentpos(_curretnPos - galerie.innerWidth / 2);
       galerie.current.scroll({
         top: 0,
-        left: _curretnPos - window.innerWidth / 2,
+        left: _curretnPos - galerie.innerWidth / 2,
         behavior: "smooth",
       });
     };

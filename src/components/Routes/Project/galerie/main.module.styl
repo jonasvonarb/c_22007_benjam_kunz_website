@@ -14,7 +14,6 @@
     overflow-y: hidden
     overscroll-behavior: none
     cursor: none
-    pointer-events: none 
     .arrowLeft
     .arrowRight
         cursor: none
@@ -42,10 +41,10 @@
 .videoContainer > span > video
     overflow: hidden
     height: 100%
-    margin-left 0.6rem
-    margin-right 0.6rem
-    margin-top 0.6rem
-    margin-bottom 0.6rem
+    padding-left 0.2rem
+    padding-right 0.2rem
+    padding-top 0.3rem
+
 
 .container--scroll
     .imageContainer
@@ -69,8 +68,9 @@
         flex-shrink: 0
         img
         video
-            height: 100%
+            height: 100% 
             width: 100%
+            max-width: 100vw
             object-fit: contain
             object-position: top left
 
@@ -89,13 +89,14 @@
     justify-content: center
     gap 6px
     z-index 10000000
-    transform: translate(-50%, -50%)
+    transform: translate(50%, -50%)
     color: rgb(200,200,200)
     medium_font-alt()
     cursor none
     mix-blend-mode: exclusion
     pointer-events: none !important
-    // transition: opacity  1s
+    top: 0
+    right 0
     &.scrolling
         // opacity 0.2
         // gap 20px

@@ -16,6 +16,11 @@
     pointer-events: none
     transform: translateY(100%)
     transition: all 0.5s
+    @media _small
+        width: 100vw
+        min-width none
+        height: -webkit-fill-available
+        overflow: scroll
     &.active
         transform: translateY(0)
     .header
@@ -25,6 +30,9 @@
         pointer-events: all
         small_font-alt()
         background-color: var(--benj-yellow)
+        @media _small
+            width: 100vw
+            border 0
         .title
             display flex
             justify-content: space-between
@@ -56,6 +64,14 @@
         max-height: calc(100% - 45px)
         transition: all 0.5s
         border-right solid black 1px
+        @media _small
+            width: 100vw
+            flex-direction: column
+            overflow-y scroll
+            overflow-x hidden 
+            padding-bottom 20rem
+            padding-top 3rem
+            border 0
         .left
             flex-shrink: 1
             width: calc(100% - 100px)

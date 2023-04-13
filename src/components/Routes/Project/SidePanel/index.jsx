@@ -6,6 +6,7 @@ import Icon from "../../../UI/Icon";
 import Chevron from "../../../UI/Chevron";
 import { useData, useNavigation } from "@/stores";
 import { useSearchParams } from "react-router-dom";
+import { useMedia } from "react-use";
 
 const SidePanel = ({
   label,
@@ -24,6 +25,8 @@ const SidePanel = ({
   const [activeImage, setActiveImage] = useState();
   let [, setSearchParams] = useSearchParams();
   const [isLoading, setIsLoading] = useState(false);
+  const isWide = useMedia("(min-width: 900px)");
+  const galerie = useRef();
 
   const handelVisibility = (action) => {
     toggleSidePanel(action || "TOGGLE");
@@ -53,15 +56,52 @@ const SidePanel = ({
     if (ndx <= 0) setActiveImage(shop_galerie.length);
   };
 
+  const [currentPos, setCurrentpos] = useState(0);
+
   const shopGalerie = () => {
     const openImage = (index) => {
       setActiveImage(index + 1);
-      console.log("click");
     };
+    const dist = isWide ? 300 : (window.innerWidth / 4) * 3;
+    const nextImage = () => {
+      const _curretnPos = galerie.current.scrollLeft;
+      setCurrentpos(_curretnPos + dist);
+      galerie.current.scroll({
+        top: 0,
+        left: _curretnPos + dist,
+        behavior: "smooth",
+      });
+    };
+    const lastImage = () => {
+      const _curretnPos = galerie.current.scrollLeft;
+      if (_curretnPos <= 5) return;
+      setCurrentpos(_curretnPos - dist);
+      galerie.current.scroll({
+        top: 0,
+        left: _curretnPos - dist,
+        behavior: "smooth",
+      });
+    };
+
     return (
-      <div className={[styles.shopGalerie].join(" ")}>
+      <div ref={galerie} className={[styles.shopGalerie].join(" ")}>
+        <div
+          onClick={lastImage}
+          className={[styles.last, currentPos === 0 && styles.inactive].join(
+            " "
+          )}
+        >
+          <Chevron left={true} />
+        </div>
+        <div onClick={nextImage} className={[styles.next].join(" ")}>
+          <Chevron />
+        </div>
         {shop_galerie?.map((image, ind) => (
-          <div key={image.url} onClick={() => openImage(ind)}>
+          <div
+            className={[styles.image].join(" ")}
+            key={image.url}
+            onClick={() => openImage(ind)}
+          >
             <span>
               {type?.charAt(7)}
               {index()}–{indexCaracter(ind)}
@@ -112,7 +152,7 @@ const SidePanel = ({
               className={styles.icon}
               clicked={() => setActiveImage(undefined)}
             />
-            <div
+            {/*<div
               className={styles.iconLeft}
               onClick={() => changeImage(activeImage - 1)}
             >
@@ -123,7 +163,7 @@ const SidePanel = ({
               onClick={() => changeImage(activeImage + 1)}
             >
               <Chevron />
-            </div>
+            </div> */}
             <img
               className={[
                 styles.previewImage,
@@ -168,7 +208,7 @@ const SidePanel = ({
           <div>
             <p className={[styles.title].join(" ")}>
               {type?.charAt(7)}
-              {index()} {label}
+              {index()} {isWide ? label : "info"}
             </p>
           </div>
         </button>

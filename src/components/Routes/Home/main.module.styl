@@ -7,6 +7,8 @@
     height 100vh
     width: 100vw
     transition opacity 0.5s
+    @media _small
+        height: -webkit-fill-available;
     &.blur
         opacity 0.1
 
@@ -21,12 +23,17 @@
     width: 100vw
     background: white
     transition: opacity 0.5s
+    @media _small
+        height: -webkit-fill-available;
     &.blur
         pointer-events: none
     .colorRectContainer
         height: 22px
         display: flex
         justify-content: space-around
+        @media _small
+            height: 10px
+            width: 200%
         div
             width: 100%
             background var(--benj-gray)
@@ -53,15 +60,17 @@
         display: flex
         align-items: flex-start
         p
-
             padding var(--padding--element)
             padding-top 7.5rem
             padding-left 1.4rem 
+            padding-right 1.4rem 
             padding-bottom 1.4rem 
             background var(--benj-gray)
             title_font()
             width: 50%
             flex-shrink: 1
+            @media _small
+                padding 2rem .5rem .5rem .5rem
     .galerie
         position relative
         display: flex
@@ -70,6 +79,8 @@
         overflow-x: scroll;
         overflow-y: hidden;
         overscroll-behavior none
+        @media _small
+            height: calc(100% - 200px)
         .next
         .last
             position fixed
@@ -81,6 +92,8 @@
             margin: auto
             display: flex
             cursor: pointer
+            @media _small
+                display: none
             &:hover
                 background-color: var(--benj-yellow)
         .next 
@@ -106,9 +119,10 @@
                     transition: opacity 0.1s
                     opacity 1
                     cursor pointer
-                    &:hover
-                        cursor pointer
-                        opacity 0
+                    @media _desktop
+                        &:hover
+                            cursor pointer
+                            opacity 0.2
                 .image > span
                     height: 100%
                 .titleProjects

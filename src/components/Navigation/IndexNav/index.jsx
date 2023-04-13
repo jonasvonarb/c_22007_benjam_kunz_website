@@ -5,6 +5,7 @@ import styles from "./main.module.styl";
 import { Link, useNavigate } from "react-router-dom";
 import Icon from "../../UI/Icon";
 import { LazyLoadImage } from "react-lazy-load-image-component";
+import { useRef } from "react";
 
 const query = {
   query: ` {
@@ -99,6 +100,7 @@ const IndexNav = ({}) => {
   const activeGroup = useNavigation((state) => state.activeGroup);
   const setActiveGroup = useNavigation((state) => state.setActiveGroup);
   const navigate = useNavigate();
+  const groupRef = useRef();
 
   useEffect(() => {
     const transformer = (data) => {
@@ -127,6 +129,7 @@ const IndexNav = ({}) => {
 
   const groupClickHandler = (event) => {
     const index = event.target.getAttribute("index");
+    groupRef.current.scrollTo(0, 0);
     setActiveGroup(+index);
   };
 
@@ -136,7 +139,6 @@ const IndexNav = ({}) => {
   };
 
   const closeMenu = () => {
-    console.log("test");
     setActiveMenu(null);
   };
 
@@ -210,7 +212,7 @@ const IndexNav = ({}) => {
       ].join(" ")}
     >
       {Header()}
-      <div className={[styles.index].join(" ")}>
+      <div ref={groupRef} className={[styles.index].join(" ")}>
         {Object.keys(indexSorted).map(
           (groupName, index) =>
             activeGroup === index && (

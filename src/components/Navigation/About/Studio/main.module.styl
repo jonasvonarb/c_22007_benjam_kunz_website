@@ -8,8 +8,14 @@
             max-width 950px
             display: flex
             flex-direction: column
+            @media _small
+                width: 100%
+                height: auto
+                max-width: none
+                min-width none
             .scroller
                 overflow: scroll
+                
             .intro_text
                 display: flex
                 flex-direction: column
@@ -34,6 +40,10 @@
             flex-direction: column
             justify-content: space-between
             gap: 30px
+            @media _small
+                width: 100%
+                max-width: none
+                min-width none
             .secondaryContainer
                 display: flex
                 flex-direction: column

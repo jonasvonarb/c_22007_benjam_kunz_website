@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
-import { useLocation, useMouse } from "react-use";
+import { useLocation, useMedia, useMouse } from "react-use";
 import { LazyLoadImage } from "react-lazy-load-image-component";
 import "react-lazy-load-image-component/src/effects/blur.css";
 
@@ -12,6 +12,7 @@ const Galerie = ({ videos, galerie, type }) => {
   const [currentImage, setCurrentImage] = useState(1);
   const location = useLocation();
   const [isScrolling, setIsScrolling] = useState(false);
+  const isWide = useMedia("(min-width: 900px)");
 
   useEffect(() => {
     setCurrentImage(1);
@@ -46,6 +47,8 @@ const Galerie = ({ videos, galerie, type }) => {
 
   const container = useRef();
   const { docX, docY } = useMouse(container);
+  const posX = isWide ? docX : -220;
+  const posY = isWide ? docY : -220;
   const maxImages = galerie?.length + videos?.length;
 
   const enterHanlderLeft = () => {
@@ -70,8 +73,10 @@ const Galerie = ({ videos, galerie, type }) => {
         setIsScrolling(false);
         clearInterval(checkIfScrollToIsFinished);
       }
-    }, 32);
+    }, 100);
   };
+
+  const footerH = isWide ? 33 : 38;
 
   const nextImage = () => {
     if (currentImage === maxImages) return;
@@ -81,9 +86,10 @@ const Galerie = ({ videos, galerie, type }) => {
     const h1 = fullGalerie[currentImage - 1].height;
     const h2 = fullGalerie[currentImage].height;
     const w1 =
-      ((window.innerHeight - 32) / h1) * fullGalerie[currentImage - 1].width;
+      ((window.innerHeight - footerH) / h1) *
+      fullGalerie[currentImage - 1].width;
     const w2 =
-      ((window.innerHeight - 32) / h2) * fullGalerie[currentImage].width;
+      ((window.innerHeight - footerH) / h2) * fullGalerie[currentImage].width;
 
     const ws1 = window.innerWidth / 2 - (window.innerWidth - w1);
     const d =
@@ -96,7 +102,6 @@ const Galerie = ({ videos, galerie, type }) => {
             2
         : window.innerWidth;
     const x = d;
-    console.log(x);
 
     container.current.scrollTo({
       top: 0,
@@ -115,9 +120,11 @@ const Galerie = ({ videos, galerie, type }) => {
     const h1 = fullGalerie[currentImage - 2].height;
     const h2 = fullGalerie[currentImage - 1].height;
     const w1 =
-      ((window.innerHeight - 32) / h1) * fullGalerie[currentImage - 2].width;
+      ((window.innerHeight - footerH) / h1) *
+      fullGalerie[currentImage - 2].width;
     const w2 =
-      ((window.innerHeight - 32) / h2) * fullGalerie[currentImage - 1].width;
+      ((window.innerHeight - footerH) / h2) *
+      fullGalerie[currentImage - 1].width;
 
     const ws1 = window.innerWidth / 2 - (window.innerWidth - w1);
     const d =
@@ -130,11 +137,10 @@ const Galerie = ({ videos, galerie, type }) => {
             2
         : window.innerWidth;
     const x = d;
-    console.log(x);
 
     container.current.scrollTo({
       top: 0,
-      left: container.current.scrollLeft - x - 30,
+      left: container.current.scrollLeft - x - footerH,
       behavior: "smooth",
     });
     isScrollToFinished(container.current);
@@ -167,7 +173,8 @@ const Galerie = ({ videos, galerie, type }) => {
 
   const Image = (image, index) => {
     const ratio = image.height / image.width;
-    const width = Math.floor((window.innerHeight - 32 - 12) / ratio);
+    const add = ratio === 1 ? 1 : ratio < 1 ? 0 : 2;
+    const width = +((window.innerHeight - footerH) / ratio).toFixed(0) + add;
     return (
       <div key={index + "Image"} className={[styles.imageContainer].join(" ")}>
         <LazyLoadImage
@@ -180,7 +187,7 @@ const Galerie = ({ videos, galerie, type }) => {
           threshold={window.innerWidth * 5 + 100}
           style={{
             width: width + "px",
-            height: "100%",
+            height: window.innerHeight - footerH + "px",
           }}
         />
       </div>
@@ -192,12 +199,12 @@ const Galerie = ({ videos, galerie, type }) => {
       ref={container}
       className={[styles[`container--${praefix}`]].join(" ")}
     >
-      {(overGalerie === 0 || overGalerie === 1) && (
+      {(overGalerie === 0 || overGalerie === 1 || !isWide) && (
         <div
           className={[styles.cursor, isScrolling && styles.scrolling].join(" ")}
           style={{
-            left: `${docX}px`,
-            top: `${docY}px`,
+            right: `${window.innerWidth - posX}px`,
+            top: `${posY}px`,
           }}
         >
           <img
@@ -219,18 +226,26 @@ const Galerie = ({ videos, galerie, type }) => {
           />
         </div>
       )}
-      <div
-        onMouseEnter={enterHanlderRight}
-        onMouseLeave={leaveHanlder}
-        onClick={nextImage}
-        className={[styles.arrowRight, isScrolling && styles.blocked].join(" ")}
-      />
-      <div
-        onMouseEnter={enterHanlderLeft}
-        onMouseLeave={leaveHanlder}
-        onClick={lastImage}
-        className={[styles.arrowLeft, isScrolling && styles.blocked].join(" ")}
-      />
+      {isWide && (
+        <>
+          <div
+            onMouseEnter={enterHanlderRight}
+            onMouseLeave={leaveHanlder}
+            onClick={nextImage}
+            className={[styles.arrowRight, isScrolling && styles.blocked].join(
+              " "
+            )}
+          />
+          <div
+            onMouseEnter={enterHanlderLeft}
+            onMouseLeave={leaveHanlder}
+            onClick={lastImage}
+            className={[styles.arrowLeft, isScrolling && styles.blocked].join(
+              " "
+            )}
+          />
+        </>
+      )}
       {videos?.map((video, index) => Video(video, index))}
       {galerie?.map((image, index) => Image(image, index))}
     </div>

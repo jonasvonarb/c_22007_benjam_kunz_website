@@ -1,14 +1,12 @@
 import React, { useState, useEffect } from "react";
 
-import { useData, useNavigation } from "@/stores";
+import { useData } from "@/stores";
 import { useSearchParams } from "react-router-dom";
 
 import styles from "./main.module.styl";
 
 import Studio from "./Studio";
 import Kontakt from "./Kontakt";
-import TitleComp from "@/components/UI/TitleComp";
-import { markdownToJSX } from "@/helpers/utils";
 
 import Icon from "@/components/UI/Icon";
 

@@ -20,6 +20,10 @@
         background: var(--benj-yellow)
         display: flex
         flex-direction: column
+        @media _small
+            width: 100%
+            margin: 0
+            border 0
         .closingX
             margin-right 0.2rem
             padding: 0 0.4rem
@@ -38,6 +42,7 @@
             padding-top: 0.2rem
             height calc(var(--height-footer) - 1rem)
             justify-content: space-between
+            align-items: center
         .groups
             width: 100%
             display: flex
@@ -47,6 +52,8 @@
                 padding 0rem 0.6rem
                 padding-top: 0.3rem
                 width: 33.3333%
+                display: flex
+                align-items: center
                 &.active
                     background: white
             :hover

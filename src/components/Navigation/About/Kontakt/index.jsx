@@ -26,7 +26,6 @@ const Contact = ({ about }) => {
 
   const Impressum = () => {
     const imp = about?.contact?.first?.impressum;
-    console.log(imp);
     return (
       <div className={[styles.impressum, iActive && styles.active].join(" ")}>
         <Icon

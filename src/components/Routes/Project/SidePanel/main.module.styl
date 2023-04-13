@@ -12,6 +12,10 @@
     height: 100vh
     pointer-events: none
     z-index 70
+    @media _small
+        width: 100vw
+        left: 0
+        min-width none
     .button
         pointer-events: all
         all: unset
@@ -22,6 +26,9 @@
         width: 100%
         small_font-alt()
         height var(--height-footer)
+        @media _small
+            width: 25vw
+            left 75vw
         div
             padding-left var(--padding-element)
             border-left: var(--border)
@@ -52,6 +59,12 @@
         transform: translateY(100%)
         transition: transform 0.5s
         hyphens: auto
+        @media _small
+            left: 0
+            width 100vw
+            left: 0
+            min-width none
+            max-width: none
         > *
             opacity all 0.5s
         &.hidden > *
@@ -140,7 +153,28 @@
             margin-bottom 1rem
             overflow-y: scroll
             cursor pointer
-            div
+            .next
+            .last
+                position fixed
+                bottom 100px
+                left 0
+                background-color: white
+                z-index 1000
+                padding: 0.4rem
+                display: flex
+                cursor: pointer
+                @media _small
+                    display: none
+                &:hover
+                    background-color: var(--benj-yellow)
+            .next 
+                right 0
+                left: unset
+            .inactive
+                opacity 0.5
+                &:hover
+                    background-color: white
+            .image
                 flex-shrink: 0
                 height: 200px
                 position relative
@@ -174,6 +208,6 @@
             background: -webkit-linear-gradient(0deg, var(--benj-yellow) 0%, rgba(0,255,255,0) 100%)
             background: linear-gradient(0deg, var(--benj-yellow) 0%, rgba(0,255,255,0) 100%)
             width: 100%
-            height: 2rem
+            height: 1.4rem
             position: absolute
             bottom: 0
