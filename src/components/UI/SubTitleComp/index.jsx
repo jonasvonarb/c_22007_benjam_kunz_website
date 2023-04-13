@@ -10,7 +10,7 @@ const SubTiotleComp = ({
   icon,
   className,
   clicked,
-  open
+  open,
 }) => {
   const clickHandler = () => {
     clicked();
@@ -28,18 +28,18 @@ const SubTiotleComp = ({
       href={`${import.meta.env.VITE_IMAGE_URL}${linkIntern}`}
       rel="noreferrer"
       target="_blank"
-      className={[styles.container].join(" ")}
+      className={[styles.container, "link"].join(" ")}
     >
-      {text} {String.fromCharCode(8594)}
+      {text} <p>{String.fromCharCode(8594)}</p>
     </a>
   ) : (
     <a
       href={`${link}`}
       rel="noreferrer"
       target="_blank"
-      className={[styles.container].join(" ")}
+      className={[styles.container, "link"].join(" ")}
     >
-      {text} {String.fromCharCode(8594)}
+      {text} <p>{String.fromCharCode(8594)}</p>
     </a>
   );
 };
