@@ -13,6 +13,8 @@ import { useNavigation } from "../../../stores/navigation";
 import { useRef } from "react";
 import Chevron from "../../UI/Chevron";
 
+import Icon from "@/components/UI/Icon";
+
 const Home = ({}) => {
   const projectsIndex = useData((state) => state.keys["INDEX"]) || {};
   const [homeProjects, setHomeProjects] = useState([]);
@@ -101,7 +103,9 @@ const Home = ({}) => {
     const galerie = useRef();
     const nextImage = () => {
       const _curretnPos = galerie.current.scrollLeft;
-      const dist = isWide ? galerie.innerWidth / 2 : (galerie.innerWidth / 5) * 4;
+      const dist = isWide
+        ? galerie.innerWidth / 2
+        : (galerie.innerWidth / 5) * 4;
       setCurrentpos(_curretnPos + dist);
       galerie.current.scroll({
         top: 0,
@@ -146,9 +150,10 @@ const Home = ({}) => {
           dangerouslySetInnerHTML={{ __html: svgString }}
         />
         {homeProjects.map((project, index) => {
+          const pBottom = isWide ? 390 : 210;
           const image = project.index_bild[0];
           const ratio = image.height / image.width;
-          const width = (window.innerHeight - 10 - 380) / ratio;
+          const width = (window.innerHeight - pBottom) / ratio;
           return (
             <div
               className={[styles.link].join(" ")}
@@ -193,6 +198,36 @@ const Home = ({}) => {
     );
   };
 
+  const [dataIsActive, setDataIsActive] = useState(true);
+
+  const Datenschutz = () => {
+    const setDataFalse = () => {
+      localStorage.setItem("visitedBenjaminKunz", "true");
+      setDataIsActive(false);
+    };
+    return (
+      <div
+        className={[
+          styles.datenschutz,
+          (localStorage.getItem("visitedBenjaminKunz") !== "true" &&
+            dataIsActive) &&
+            styles.active,
+        ].join(" ")}
+      >
+        <Icon
+          name="closing_x"
+          className={styles.closeButton}
+          clicked={setDataFalse}
+        />
+        <p className={styles.titleDaten}>Datennschutz</p>
+        <p>
+          Indem Sie mit dem Besuch der Seite fortfahren, akzeptieren Sie die
+          Verwendung von Cookies.
+        </p>
+      </div>
+    );
+  };
+
   return (
     <div
       onClick={
@@ -214,6 +249,7 @@ const Home = ({}) => {
     >
       <div className={[styles.container].join(" ")}>
         {galerie()}
+        {Datenschutz()}
         {colorRects()}
         {textTitle()}
       </div>

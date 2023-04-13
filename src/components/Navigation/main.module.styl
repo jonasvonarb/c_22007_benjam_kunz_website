@@ -9,20 +9,23 @@
         position: fixed
         bottom: 0
         left: 0 
-        margin-left: 0.5rem
-        margin-right: 0.5rem
+        padding-right: 0.5rem
         z-index 70
         padding-top 1rem
         height var(--height-footer)
+        background: white
+        @media _small
+            max-width: none
         > div
         > a
-            height calc(100% - 1rem)
-            width: 100%
+            height 100%
+            width: 100vw
             position absolute
             border-left: var(--border)
             padding-left var(--padding-element)
             display: flex
             text-decoration: none
+            margin-left 0.5rem
             padding-left:  0.5rem
             transition: left 0.5s
             background: white

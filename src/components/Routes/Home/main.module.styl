@@ -12,6 +12,30 @@
     &.blur
         opacity 0.1
 
+.datenschutz
+    position fixed
+    bottom 380px
+    left 50vw
+    width: 25vw
+    background: var(--benj-yellow)
+    padding: 1rem
+    padding-right 3.2rem
+    opacity 0
+    transition: opacity 0.5s
+    &.active
+        opacity 1
+    @media _small
+        bottom 200px
+        width: 50vw
+    .titleDaten
+        small_font-alt()
+        padding-bottom 0.2rem
+        color: black
+    .closeButton
+        position absolute
+        right 1rem
+        top 1rem
+
 
 .container
     position fixed
@@ -113,7 +137,8 @@
                 .imageWrapper
                     position absolute
                     height: calc(100% - 1.6rem)
-                    cursor pointer
+                    cursor pointer                   
+                    filter grayscale(1)
                 .imageFilterWrapper
                     height: 100%    
                     transition: opacity 0.1s
@@ -123,6 +148,8 @@
                         &:hover
                             cursor pointer
                             opacity 0.2
+                            filter grayscale(0)
+
                 .image > span
                     height: 100%
                 .titleProjects
