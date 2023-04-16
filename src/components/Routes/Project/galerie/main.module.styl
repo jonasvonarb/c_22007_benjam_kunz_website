@@ -5,8 +5,8 @@
 .container--scroll
     position fixed
     top: 0
-    left: 0
-    width: 100vw
+    left: 0.8rem
+    width: calc(100vw - 1.6rem)
     height: var(--height-body)
     display: flex
     scroll-snap-type: x mandatory;
@@ -31,6 +31,8 @@
         left: 0
         right unset
 
+
+
 .imageContainer > span
     display: inline-block
     display: flex
@@ -41,9 +43,13 @@
 .videoContainer > span > video
     overflow: hidden
     height: 100%
-    padding-left 0.2rem
-    padding-right 0.2rem
-    padding-top 0.3rem
+    padding-left 0.4rem
+    padding-right 0.4rem
+    padding-top 0.6rem
+
+.firstElement > span > img
+.firstElement > span > video
+    margin-left: -0.4rem
 
 
 .container--scroll

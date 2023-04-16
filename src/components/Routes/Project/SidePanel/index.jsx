@@ -41,20 +41,18 @@ const SidePanel = ({
   };
 
   const shopInfo = (
-    <div className={[styles.list].join(" ")}>
-      <div key={"shop"} id={"shop"} className={[styles.listElement].join(" ")}>
-        {markdownToJSX("Info", { className: styles.label })}
-        {markdownToJSX(shop_info, { className: styles.text })}
-      </div>
+    <div key={"shop"} id={"shop"} className={[styles.listElement].join(" ")}>
+      {markdownToJSX("Info", { className: styles.label })}
+      {markdownToJSX(shop_info, { className: styles.text })}
     </div>
   );
 
-  const changeImage = (ndx) => {
-    setIsLoading(true);
-    if (ndx <= shop_galerie.length && ndx >= 0) setActiveImage(ndx);
-    if (ndx >= shop_galerie.length) setActiveImage(1);
-    if (ndx <= 0) setActiveImage(shop_galerie.length);
-  };
+  // const changeImage = (ndx) => {
+  //   setIsLoading(true);
+  //   if (ndx <= shop_galerie.length && ndx >= 0) setActiveImage(ndx);
+  //   if (ndx >= shop_galerie.length) setActiveImage(1);
+  //   if (ndx <= 0) setActiveImage(shop_galerie.length);
+  // };
 
   const [currentPos, setCurrentpos] = useState(0);
 
@@ -114,6 +112,11 @@ const SidePanel = ({
   };
 
   const info = () => {
+    var formattedBody =
+      "Lieber Benjamin \n\n Ich würde gerne [ANZAHL] von [NAME DES PRODUKTES], [NUMMER DES PRODUKTES] bestellen. \n\n Meine Adresse lautet: \n\n [DEINE ADRESSE] \n\n Liebe grüsse [DEIN NAME]";
+    var mailToLink =
+      "mailto:hello@benjaminkunz.ch?subject=Bestellung%20Benjaminkunz.ch:%20________&body=" +
+      encodeURIComponent(formattedBody);
     return (
       <div
         className={[
@@ -136,12 +139,26 @@ const SidePanel = ({
         </div>
         <div className={[styles.subtitle].join(" ")}>{subtitle}</div>
         <br />
-        <br />
+        {isWide && <br />}
         <div className={[styles.list].join(" ")}>
           {infoList}
           {shop_info && shopInfo}
+          <div
+            key={"buy"}
+            id={"buy"}
+            className={[styles.listElement].join(" ")}
+          >
+            {markdownToJSX("Buy", { className: styles.label })}
+            <a className={[styles.text, "link"].join(" ")} href={mailToLink}>
+              Bestellen <span>&#8594;</span>
+            </a>
+          </div>
+          <div
+            className={[
+              shop_galerie ? styles.gradientStore : styles.gradient,
+            ].join(" ")}
+          />
         </div>
-        <div className={[styles.gradient].join(" ")} />
         {shop_galerie && (
           <div className={[styles.galerieTitle].join(" ")}>Sujetübersicht</div>
         )}

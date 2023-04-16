@@ -150,7 +150,10 @@ const Galerie = ({ videos, galerie, type }) => {
     return (
       <div
         key={index + "Video" + video.url}
-        className={[styles.videoContainer].join(" ")}
+        className={[
+          styles.videoContainer,
+          index === 0 ? styles.firstElement : "",
+        ].join(" ")}
       >
         <span>
           <video
@@ -176,7 +179,13 @@ const Galerie = ({ videos, galerie, type }) => {
     const add = ratio === 1 ? 1 : ratio < 1 ? 0 : 2;
     const width = +((window.innerHeight - footerH) / ratio).toFixed(0) + add;
     return (
-      <div key={index + "Image"} className={[styles.imageContainer].join(" ")}>
+      <div
+        key={index + "Image"}
+        className={[
+          styles.imageContainer,
+          index === 0 ? styles.firstElement : "",
+        ].join(" ")}
+      >
         <LazyLoadImage
           delayMethod="debounce"
           className={[styles.image].join(" ")}
