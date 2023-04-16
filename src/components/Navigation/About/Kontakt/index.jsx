@@ -89,7 +89,7 @@ const Contact = ({ about }) => {
           </div>
         </div>
         <div className={styles.impressumButton} onClick={toggleImpressum}>
-          Impressum, Datenschutz
+          Impressum
         </div>
         {Impressum()}
       </div>

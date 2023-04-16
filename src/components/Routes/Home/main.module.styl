@@ -132,24 +132,32 @@
                 position relative
                 height: 100%
                 padding 0.8rem 0.4rem
+                @media _small
+                    width: 60vw 
+                    overflow: hidden
                 .imageFilterWrapper > img
                     filter: url(#yellow-blue-acid);
+                .imageWrapper > img
+                    @media _small
+                        object-fit: cover; /* Do not scale the image */
+                        width: 60vw !important
                 .imageWrapper
                     position absolute
                     height: calc(100% - 1.6rem)
-                    cursor pointer                   
-                    filter grayscale(1)
+                    cursor pointer 
                 .imageFilterWrapper
                     height: 100%    
                     transition: opacity 0.1s
                     opacity 1
                     cursor pointer
+                    @media _small
+                        opacity 0
+                        display none
                     @media _desktop
                         &:hover
                             cursor pointer
-                            opacity 0.2
-                            filter grayscale(0)
-
+                            opacity 0
+                            // filter grayscale(0)
                 .image > span
                     height: 100%
                 .titleProjects

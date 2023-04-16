@@ -103,9 +103,7 @@ const Home = ({}) => {
     const galerie = useRef();
     const nextImage = () => {
       const _curretnPos = galerie.current.scrollLeft;
-      const dist = isWide
-        ? galerie.innerWidth / 2
-        : (galerie.innerWidth / 5) * 4;
+      const dist = isWide ? window.innerWidth / 2 : (window.innerWidth / 5) * 4;
       setCurrentpos(_curretnPos + dist);
       galerie.current.scroll({
         top: 0,
@@ -116,10 +114,10 @@ const Home = ({}) => {
     const lastImage = () => {
       const _curretnPos = galerie.current.scrollLeft;
       if (_curretnPos <= 5) return;
-      setCurrentpos(_curretnPos - galerie.innerWidth / 2);
+      setCurrentpos(_curretnPos - window.innerWidth / 2);
       galerie.current.scroll({
         top: 0,
-        left: _curretnPos - galerie.innerWidth / 2,
+        left: _curretnPos - window.innerWidth / 2,
         behavior: "smooth",
       });
     };
@@ -175,21 +173,23 @@ const Home = ({}) => {
                     height: 100 + "%",
                   }}
                 />
-                <LazyLoadImage
-                  delayMethod="debounce"
-                  className={[styles.imageFilter].join(" ")}
-                  src={`${import.meta.env.VITE_IMAGE_URL}${image.url}`}
-                  placeholderSrc={`${import.meta.env.VITE_IMAGE_URL}${
-                    image.variations[0].url
-                  }`}
-                  threshold={window.innerWidth * 2 + 100}
-                  wrapperClassName={[styles.imageFilterWrapper].join(" ")}
-                  style={{
-                    width: width + "px",
-                    height: 100 + "%",
-                    backgroundColor: "white",
-                  }}
-                />
+                {isWide && (
+                  <LazyLoadImage
+                    delayMethod="debounce"
+                    className={[styles.imageFilter].join(" ")}
+                    src={`${import.meta.env.VITE_IMAGE_URL}${image.url}`}
+                    placeholderSrc={`${import.meta.env.VITE_IMAGE_URL}${
+                      image.variations[0].url
+                    }`}
+                    threshold={window.innerWidth * 2 + 100}
+                    wrapperClassName={[styles.imageFilterWrapper].join(" ")}
+                    style={{
+                      width: width + "px",
+                      height: 100 + "%",
+                      backgroundColor: "white",
+                    }}
+                  />
+                )}
               </div>
             </div>
           );
@@ -209,8 +209,8 @@ const Home = ({}) => {
       <div
         className={[
           styles.datenschutz,
-          (localStorage.getItem("visitedBenjaminKunz") !== "true" &&
-            dataIsActive) &&
+          localStorage.getItem("visitedBenjaminKunz") !== "true" &&
+            dataIsActive &&
             styles.active,
         ].join(" ")}
       >
@@ -219,7 +219,7 @@ const Home = ({}) => {
           className={styles.closeButton}
           clicked={setDataFalse}
         />
-        <p className={styles.titleDaten}>Datennschutz</p>
+        <p className={styles.titleDaten}>Datenschutz</p>
         <p>
           Indem Sie mit dem Besuch der Seite fortfahren, akzeptieren Sie die
           Verwendung von Cookies.

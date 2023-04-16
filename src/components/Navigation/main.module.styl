@@ -19,7 +19,7 @@
         > div
         > a
             height 100%
-            width: 100vw
+            width: calc(25vw - 0.5rem)
             position absolute
             border-left: var(--border)
             padding-left var(--padding-element)
@@ -37,16 +37,16 @@
                 &.hidden
                     left: -33.33333334%
                     @media _small
-                        left: -23vw
+                        left: -33vw
             &.index
                 left 66.66666667%
                 @media _small
-                    left: 46vw
+                    left: calc(50vw - 1rem)
             &.about
                 &.left
                     left 0%
                 &.right
-                    left 25%
+                    left 33.3333333%
                     @media _small
-                        left: 23vw
+                        left: calc(25vw - 1rem)
             
