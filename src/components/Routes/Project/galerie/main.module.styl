@@ -39,6 +39,19 @@
     height: var(--height-body)
     padding-bottom: 0px
 
+.container--scroll
+    .imageContainer
+    .videoContainer
+        transition: opacity 0.3s
+        &.inactiveImage
+            @media _desktop
+                opacity 0.2
+        &.activeImage
+            @media _desktop
+                opacity 1
+
+
+
 .imageContainer > span > img
 .videoContainer > span > video
     overflow: hidden
@@ -50,6 +63,8 @@
 .firstElement > span > img
 .firstElement > span > video
     margin-left: -0.4rem
+
+
 
 
 .container--scroll
@@ -115,6 +130,4 @@
         opacity 0
         &.activeArrow
             opacity 1
-
-
     

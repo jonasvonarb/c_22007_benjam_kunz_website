@@ -153,6 +153,7 @@ const Galerie = ({ videos, galerie, type }) => {
         className={[
           styles.videoContainer,
           index === 0 ? styles.firstElement : "",
+          index + 1 === currentImage ? styles.activeImage : styles.inactiveImage,
         ].join(" ")}
       >
         <span>
@@ -184,6 +185,7 @@ const Galerie = ({ videos, galerie, type }) => {
         className={[
           styles.imageContainer,
           index === 0 ? styles.firstElement : "",
+          index + 1 === currentImage ? styles.activeImage : styles.inactiveImage,
         ].join(" ")}
       >
         <LazyLoadImage
@@ -193,6 +195,7 @@ const Galerie = ({ videos, galerie, type }) => {
           placeholderSrc={`${import.meta.env.VITE_IMAGE_URL}${
             image.variations[0].url
           }`}
+          effect="blur"
           threshold={window.innerWidth * 5 + 100}
           style={{
             width: width + "px",
@@ -256,7 +259,7 @@ const Galerie = ({ videos, galerie, type }) => {
         </>
       )}
       {videos?.map((video, index) => Video(video, index))}
-      {galerie?.map((image, index) => Image(image, index))}
+      {galerie?.map((image, index) => Image(image, index + videos.length))}
     </div>
   );
 };

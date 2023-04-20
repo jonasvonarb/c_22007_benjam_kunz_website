@@ -205,6 +205,7 @@ const Home = ({}) => {
       localStorage.setItem("visitedBenjaminKunz", "true");
       setDataIsActive(false);
     };
+    console.log("datenschutz")
     return (
       <div
         className={[
