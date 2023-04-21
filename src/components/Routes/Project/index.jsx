@@ -89,7 +89,7 @@ const Project = ({}) => {
   const sidePanelVisibility = useNavigation((state) => state.sidePanelIsActive);
   const activeMenu = useNavigation((state) => state.activeMenu);
   const resetOverlays = useNavigation((state) => state.resetAllOverlays);
-  let [searchParams, setSearchParams] = useSearchParams();
+  const [searchParams, setSearchParams] = useSearchParams();
 
   const resetOverlaysAction = () => {
     setSearchParams({});
