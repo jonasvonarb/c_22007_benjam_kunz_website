@@ -44,7 +44,11 @@ const SidePanel = ({ project }) => {
   }, [index]);
 
   const shopInfo = (
-    <div key={"shop"} id={"shop"} className={[styles.listElement, styles.shopInfo].join(" ")}>
+    <div
+      key={"shop"}
+      id={"shop"}
+      className={[styles.listElement, styles.shopInfo].join(" ")}
+    >
       {markdownToJSX("Info", { className: styles.label })}
       {markdownToJSX(shop_info, { className: styles.text })}
     </div>
@@ -56,7 +60,7 @@ const SidePanel = ({ project }) => {
     const openImage = (index) => {
       setActiveImage(index + 1);
     };
-    const dist = isWide ? 300 : (window.innerWidth / 4) * 3;
+    const dist = isWide ? 200 : window.innerWidth / 3;
     const nextImage = () => {
       const _curretnPos = galerie.current.scrollLeft;
       setCurrentpos(_curretnPos + dist);
@@ -78,32 +82,36 @@ const SidePanel = ({ project }) => {
     };
 
     return (
-      <div ref={galerie} className={[styles.shopGalerie].join(" ")}>
-        <div
-          onClick={lastImage}
-          className={[styles.last, currentPos === 0 && styles.inactive].join(
-            " "
-          )}
-        >
-          <Chevron left={true} />
-        </div>
-        <div onClick={nextImage} className={[styles.next].join(" ")}>
-          <Chevron />
-        </div>
-        {shop_galerie?.map((image, ind) => (
+      <>
+        <div>
           <div
-            className={[styles.image].join(" ")}
-            key={image.url}
-            onClick={() => openImage(ind)}
+            onClick={lastImage}
+            className={[styles.last, currentPos === 0 && styles.inactive].join(
+              " "
+            )}
           >
-            <span>
-              {type?.charAt(7)}
-              {index}–{indexCaracter}
-            </span>
-            <img src={`${import.meta.env.VITE_IMAGE_URL}${image.url}`} />
+            <Chevron left={true} />
           </div>
-        ))}
-      </div>
+          <div onClick={nextImage} className={[styles.next].join(" ")}>
+            <Chevron />
+          </div>
+        </div>
+        <div ref={galerie} className={[styles.shopGalerie].join(" ")}>
+          {shop_galerie?.map((image, ind) => (
+            <div
+              className={[styles.image].join(" ")}
+              key={image.url}
+              onClick={() => openImage(ind)}
+            >
+              <span>
+                {type?.charAt(7)}
+                {index}–{indexCaracter}
+              </span>
+              <img src={`${import.meta.env.VITE_IMAGE_URL}${image.url}`} />
+            </div>
+          ))}
+        </div>
+      </>
     );
   };
 
@@ -156,15 +164,19 @@ const SidePanel = ({ project }) => {
           )}
           {infoList}
           {shop_info && shopInfo}
+          {shop_galerie && (
+            <div className={[styles.galerieTitle].join(" ")}>
+              Sujetübersicht
+            </div>
+          )}
+          {shop_galerie && shopGalerie()}
           {/* <div
             className={[
               shop_galerie ? styles.gradientStore : styles.gradient,
             ].join(" ")}
           /> */}
         </div>
-        {shop_galerie && (
-          <div className={[styles.galerieTitle].join(" ")}>Sujetübersicht</div>
-        )}
+
         {activeImage && (
           <div className={[styles.imageContainer].join(" ")}>
             <Icon
@@ -172,18 +184,6 @@ const SidePanel = ({ project }) => {
               className={styles.icon}
               clicked={() => setActiveImage(undefined)}
             />
-            {/*<div
-              className={styles.iconLeft}
-              onClick={() => changeImage(activeImage - 1)}
-            >
-              <Chevron left={true} />
-            </div>
-            <div
-              className={styles.iconRight}
-              onClick={() => changeImage(activeImage + 1)}
-            >
-              <Chevron />
-            </div> */}
             <img
               className={[
                 styles.previewImage,
@@ -205,7 +205,6 @@ const SidePanel = ({ project }) => {
             />
           </div>
         )}
-        {shop_galerie && shopGalerie()}
       </div>
     );
   };
