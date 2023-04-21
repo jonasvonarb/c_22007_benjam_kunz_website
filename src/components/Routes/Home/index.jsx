@@ -232,8 +232,8 @@ const Home = ({}) => {
       onClick={
         sidePanelVisibility ||
         activeMenu ||
-        searchParams.get("p") === "s" ||
-        searchParams.get("p") === "k"
+        searchParams.get("about") === "s" ||
+        searchParams.get("about") === "k"
           ? resetOverlaysAction
           : null
       }
@@ -241,8 +241,8 @@ const Home = ({}) => {
         styles.wrapper,
         (sidePanelVisibility ||
           activeMenu ||
-          searchParams.get("p") === "s" ||
-          searchParams.get("p") === "k") &&
+          searchParams.get("about") === "s" ||
+          searchParams.get("about") === "k") &&
           styles.blur,
       ].join(" ")}
     >

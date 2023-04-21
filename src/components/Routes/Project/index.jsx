@@ -90,6 +90,11 @@ const Project = ({}) => {
   const activeMenu = useNavigation((state) => state.activeMenu);
   const resetOverlays = useNavigation((state) => state.resetAllOverlays);
   const [searchParams, setSearchParams] = useSearchParams();
+  const location = useLocation()
+
+  useEffect(() => {
+    console.log(location);
+  }, [location.search]);
 
   const resetOverlaysAction = () => {
     setSearchParams({});
@@ -135,8 +140,8 @@ const Project = ({}) => {
         onClick={
           sidePanelVisibility ||
           activeMenu ||
-          searchParams.get("p") === "s" ||
-          searchParams.get("p") === "k"
+          searchParams.get("about") === "s" ||
+          searchParams.get("about") === "k"
             ? resetOverlaysAction
             : null
         }
@@ -144,8 +149,8 @@ const Project = ({}) => {
           styles.wrapper,
           (sidePanelVisibility ||
             activeMenu ||
-            searchParams.get("p") === "s" ||
-            searchParams.get("p") === "k") &&
+            searchParams.get("about") === "s" ||
+            searchParams.get("about") === "k") &&
             styles.blur,
         ].join(" ")}
       >

@@ -10,7 +10,7 @@ import SidePanel from "../UI/SidePanel";
 const Navigation = () => {
   const setActiveMenu = useNavigation((state) => state.setActiveMenu);
   const location = useLocation();
-  let [, setSearchParams] = useSearchParams();
+  let [searchParams, setSearchParams] = useSearchParams();
   const toggleSidePanel = useNavigation(
     (state) => state.toggleSidePanelIsActive
   );
@@ -21,7 +21,7 @@ const Navigation = () => {
     toggleSidePanel(false);
   };
   const openAbout = () => {
-    setSearchParams({ p: "s" });
+    setSearchParams({ about: "s" });
     toggleSidePanel(false);
   };
   const closeAll = () => {

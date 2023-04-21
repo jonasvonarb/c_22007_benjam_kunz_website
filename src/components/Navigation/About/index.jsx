@@ -69,7 +69,7 @@ const About = ({}) => {
 
   const changeSite = (site) => {
     if (site) {
-      setSearchParams({ p: site });
+      setSearchParams({ about: site });
       setPrevParam(site);
     } else {
       setSearchParams({});
@@ -91,7 +91,7 @@ const About = ({}) => {
     <div
       className={[
         styles.container,
-        searchParams.get("p") && about.length !== 0 && styles.active,
+        searchParams.get("about") && about.length !== 0 && styles.active,
       ].join(" ")}
     >
       <div className={[styles.header].join(" ")}>
@@ -103,7 +103,7 @@ const About = ({}) => {
           <div
             className={[
               styles.navItem,
-              (searchParams.get("p") === "s" || !searchParams.get("p")) &&
+              (searchParams.get("about") === "s" || !searchParams.get("about")) &&
                 styles.active,
             ].join(" ")}
             onClick={() => changeSite("s")}
@@ -113,7 +113,7 @@ const About = ({}) => {
           <div
             className={[
               styles.navItem,
-              searchParams.get("p") === "k" && styles.active,
+              searchParams.get("about") === "k" && styles.active,
             ].join(" ")}
             onClick={() => changeSite("k")}
           >
@@ -121,22 +121,22 @@ const About = ({}) => {
           </div>
         </div>
       </div>
-      {(searchParams.get("p") === "s" || prevParam === "s") && (
+      {(searchParams.get("about") === "s" || prevParam === "s") && (
         <div
           className={[
             styles.site,
-            (searchParams.get("p") === "s" || prevParam === "s") &&
+            (searchParams.get("about") === "s" || prevParam === "s") &&
               styles.active,
           ].join(" ")}
         >
           <Studio about={about} />
         </div>
       )}
-      {(searchParams.get("p") === "k" || prevParam === "k") && (
+      {(searchParams.get("about") === "k" || prevParam === "k") && (
         <div
           className={[
             styles.site,
-            (searchParams.get("p") === "k" || prevParam === "k") &&
+            (searchParams.get("about") === "k" || prevParam === "k") &&
               styles.active,
           ].join(" ")}
         >
