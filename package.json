@@ -1,7 +1,7 @@
 {
   "name": "benjaminkunz.frontend",
   "private": true,
-  "version": "0.0.4-25",
+  "version": "0.0.4-26",
   "scripts": {
     "postversion": "npm run deploy",
     "clean": "npm cache clean --force && rm -rf node_modules package-lock.json && npm i --legacy-peer-deps",
