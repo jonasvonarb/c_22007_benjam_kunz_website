@@ -4,16 +4,17 @@
     nav 
         small_font-alt()
         cursor: pointer
-        width: 75vw
+        width: calc(75vw - 1rem)
         max-width: calc(100vw - 400px)
         position: fixed
         bottom: 0
         left: 0 
         padding-right: 0.5rem
-        z-index 70
+        z-index 80
         padding-top 1rem
         height var(--height-footer)
         background: white
+        z-index 50
         @media _small
             max-width: none
         > div

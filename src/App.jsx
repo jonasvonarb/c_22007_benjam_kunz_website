@@ -1,19 +1,19 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 
 import { Outlet, Route, Routes, useLocation } from "react-router";
 import Navigation from "@/components/Navigation";
 import Project from "./components/Routes/Project";
 import Home from "./components/Routes/Home";
 
+import { useData } from "@/stores";
+
 import { useTransition, a, easings } from "@react-spring/web";
 
 import "./styles/main.styl";
+import SidePanel from "./components/UI/SidePanel";
 
 function App() {
   const location = useLocation();
-  useEffect(() => {
-    console.log(location);
-  }, [location.pathname]);
   const transitions = useTransition(location.pathname, {
     from: { opacity: "0", filter: "blur(12px)" },
     enter: { opacity: "1", filter: "blur(0)" },
@@ -24,6 +24,8 @@ function App() {
       easing: easings.easeOutCirc,
     },
   });
+
+  
 
   return (
     <div className="App">
@@ -36,8 +38,6 @@ function App() {
           </Routes>
         </a.div>
       ))}
-
-      {/* <Outlet /> */}
     </div>
   );
 }

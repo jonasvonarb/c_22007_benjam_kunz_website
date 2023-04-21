@@ -1,10 +1,11 @@
-import React from "react";
-import { useNavigation } from "@/stores";
+import React, { useEffect, useState } from "react";
+import { useNavigation, useData } from "@/stores";
 import IndexNav from "@/components/Navigation/IndexNav";
 
 import styles from "./main.module.styl";
 import { NavLink, useLocation, Route, useSearchParams } from "react-router-dom";
 import About from "./About";
+import SidePanel from "../UI/SidePanel";
 
 const Navigation = () => {
   const setActiveMenu = useNavigation((state) => state.setActiveMenu);
@@ -27,6 +28,24 @@ const Navigation = () => {
     setSearchParams({});
     toggleSidePanel(false);
   };
+
+  const slug = useLocation().pathname.replace("/", "");
+  const getProjectBySlug = useData((state) => state.getProjectBySlug);
+  const [project, setProject] = useState();
+
+  useEffect(() => {
+    if (slug !== "") {
+      let wait = setInterval(() => {
+        if (getProjectBySlug(slug) === null) return;
+        clearInterval(wait);
+        setProject(getProjectBySlug(slug));
+      }, 10);
+    } else {
+      console.log(slug);
+      setProject(null);
+    }
+  }, [slug]);
+
   return (
     <div className={[styles.container].join(" ")}>
       <IndexNav />
@@ -55,6 +74,7 @@ const Navigation = () => {
           Index
         </div>
       </nav>
+      {project && <SidePanel project={project} />}
     </div>
   );
 };

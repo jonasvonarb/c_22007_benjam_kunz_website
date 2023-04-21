@@ -166,7 +166,6 @@ const Home = ({}) => {
                   delayMethod="debounce"
                   className={[styles.image].join(" ")}
                   src={`${import.meta.env.VITE_IMAGE_URL}${image.url}`}
-                  threshold={window.innerWidth * 2 + 100}
                   wrapperClassName={[styles.imageWrapper].join(" ")}
                   style={{
                     width: width + "px",
@@ -205,7 +204,6 @@ const Home = ({}) => {
       localStorage.setItem("visitedBenjaminKunz", "true");
       setDataIsActive(false);
     };
-    console.log("datenschutz")
     return (
       <div
         className={[

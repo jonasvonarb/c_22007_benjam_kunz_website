@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import { useLocation, useMedia, useMouse } from "react-use";
 import { LazyLoadImage } from "react-lazy-load-image-component";
-import "react-lazy-load-image-component/src/effects/blur.css";
+import "react-lazy-load-image-component/src/effects/opacity.css";
 
 import styles from "./main.module.styl";
 
@@ -192,10 +192,7 @@ const Galerie = ({ videos, galerie, type }) => {
           delayMethod="debounce"
           className={[styles.image].join(" ")}
           src={`${import.meta.env.VITE_IMAGE_URL}${image.url}`}
-          placeholderSrc={`${import.meta.env.VITE_IMAGE_URL}${
-            image.variations[0].url
-          }`}
-          effect="blur"
+          effect="opacity"
           threshold={window.innerWidth * 5 + 100}
           style={{
             width: width + "px",

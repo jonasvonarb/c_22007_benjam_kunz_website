@@ -10,7 +10,6 @@ export const useData = create(
     keys: {},
     projectIds: [],
     projectIdsSorted: [],
-    currentProject: undefined,
     fetch: async (query, storeKey, transformer) => {
       let _storeKey = storeKey || "ALL";
       await axios
@@ -56,7 +55,7 @@ export const useData = create(
       return project;
     },
     getProjectBySlug: (slug) => {
-      if (!slug || !get().keys["INDEX"]) return;
+      if (!slug || !get().keys["INDEX"]) return null;
       const project = Object.values(get().keys["INDEX"]).find((x) => {
         return x.name === slug;
       });

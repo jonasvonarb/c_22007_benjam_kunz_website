@@ -4,7 +4,6 @@ import { useData, useNavigation } from "@/stores";
 
 import styles from "./main.module.styl";
 import Galerie from "./galerie";
-import SidePanel from "./SidePanel";
 
 const dataQuery = `{
   list {
@@ -134,11 +133,12 @@ const Project = ({}) => {
     <div className={[styles.container].join(" ")}>
       <div
         onClick={
-          (sidePanelVisibility ||
-            activeMenu ||
-            searchParams.get("p") === "s" ||
-            searchParams.get("p") === "k") ?
-          resetOverlaysAction : null
+          sidePanelVisibility ||
+          activeMenu ||
+          searchParams.get("p") === "s" ||
+          searchParams.get("p") === "k"
+            ? resetOverlaysAction
+            : null
         }
         className={[
           styles.wrapper,
@@ -155,15 +155,6 @@ const Project = ({}) => {
           videos={project?.videos}
         />
       </div>
-      <SidePanel
-        label={project?.label}
-        subtitle={project?.subtitle}
-        infos={project?.infos}
-        type={project?.__typename}
-        shop_info={project?.info_shop}
-        shop_galerie={project?.shop_galerie}
-        id={project?.id}
-      />
     </div>
   );
 };

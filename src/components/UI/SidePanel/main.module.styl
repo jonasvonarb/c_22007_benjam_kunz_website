@@ -1,4 +1,4 @@
-@import '../../../../styles/_variables'
+@import '../../../styles/_variables'
 
 .container
     position: absolute
@@ -7,13 +7,12 @@
     flex-direction: column;
     right: 0
     bottom: 0
-    width: 25vw
+    width: calc(25vw - .5rem)
     min-width 400px
     height: 100vh
     pointer-events: none
-    z-index 70
+    z-index 50
     @media _small
-        height: 80%
         width: 100vw
         left: 0
         min-width none
@@ -53,7 +52,7 @@
         display: flex
         justify-content: flex-end;
         flex-direction: column
-        z-index 100
+        z-index 250
         background: var(--benj-yellow)
         padding: var(--padding-element)
         padding-bottom: 0
@@ -64,6 +63,9 @@
             left: 0
             width 100vw
             left: 0
+            height: auto
+            min-height: 80vh
+            max-height: 95vh
             min-width none
             max-width: none
         > *
@@ -92,14 +94,14 @@
             position absolute
             width: calc(100% - 2rem)
             bottom: 1rem
-            z-index: 100
+            z-index: 260
             pointer-events: auto !important
             opacity 1 !important
             .icon
             .iconRight
             .iconLeft
                 position absolute
-                z-index 101
+                z-index 261
                 background-color: var(--benj-yellow)
             .icon
                 padding 0.4rem
@@ -122,12 +124,12 @@
                 transform: translate(0,-50%)
             .previewImage
                 width: 100%
-                z-index 100
+                z-index 260
                 &.loading
                     display: none
             .previewImageLoader
                 width: 100%
-                z-index 100
+                z-index 260
                 &.loading
                     filter blur(1px)
             .previwImage.isLoaded
@@ -150,7 +152,7 @@
             padding-left: 1rem
             margin-right -1rem
             overscroll-behavior: none
-            gap: 10px
+            gap: 4px
             margin-bottom 1rem
             overflow-y: scroll
             overflow-x: hidden
@@ -224,3 +226,6 @@
             height: 1.4rem
             position: fixed
             bottom: 228px
+
+.shopInfo
+    padding-bottom: 40px !important

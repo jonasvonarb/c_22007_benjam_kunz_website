@@ -2,21 +2,20 @@ import React, { useState, useEffect, useRef } from "react";
 import { markdownToJSX } from "@/helpers/utils";
 
 import styles from "./main.module.styl";
-import Icon from "../../../UI/Icon";
-import Chevron from "../../../UI/Chevron";
+import Icon from "@/components/UI/Icon";
+import Chevron from "@/components/UI/Chevron";
 import { useData, useNavigation } from "@/stores";
 import { useSearchParams } from "react-router-dom";
 import { useMedia } from "react-use";
 
-const SidePanel = ({
-  label,
-  subtitle,
-  infos,
-  shop_info,
-  shop_galerie,
-  type,
-  id,
-}) => {
+const SidePanel = ({ project }) => {
+  const label = project?.label;
+  const subtitle = project?.subtitle;
+  const infos = project?.infos;
+  const shop_info = project?.info_shop;
+  const shop_galerie = project?.shop_galerie;
+  const type = project?.__typename;
+  const id = project?.id;
   const visibility = useNavigation((state) => state.sidePanelIsActive);
   const toggleSidePanel = useNavigation(
     (state) => state.toggleSidePanelIsActive
@@ -27,32 +26,29 @@ const SidePanel = ({
   const [isLoading, setIsLoading] = useState(false);
   const isWide = useMedia("(min-width: 900px)");
   const galerie = useRef();
+  const [index, setIndex] = useState();
+  const [indexCaracter, setIndexCaracter] = useState();
 
   const handelVisibility = (action) => {
     toggleSidePanel(action || "TOGGLE");
     setSearchParams({});
   };
 
-  const index = () => {
-    return indexSorted[type]?.indexOf(id) + 1;
-  };
-  const indexCaracter = (index) => {
-    return (index + 10).toString(36).toUpperCase();
-  };
+  useEffect(() => {
+    console.log(project);
+    setIndex(indexSorted[type]?.indexOf(id) + 1);
+  }, [JSON.stringify(project)]);
+
+  useEffect(() => {
+    setIndexCaracter((index + 10).toString(36).toUpperCase());
+  }, [index]);
 
   const shopInfo = (
-    <div key={"shop"} id={"shop"} className={[styles.listElement].join(" ")}>
+    <div key={"shop"} id={"shop"} className={[styles.listElement, styles.shopInfo].join(" ")}>
       {markdownToJSX("Info", { className: styles.label })}
       {markdownToJSX(shop_info, { className: styles.text })}
     </div>
   );
-
-  // const changeImage = (ndx) => {
-  //   setIsLoading(true);
-  //   if (ndx <= shop_galerie.length && ndx >= 0) setActiveImage(ndx);
-  //   if (ndx >= shop_galerie.length) setActiveImage(1);
-  //   if (ndx <= 0) setActiveImage(shop_galerie.length);
-  // };
 
   const [currentPos, setCurrentpos] = useState(0);
 
@@ -102,7 +98,7 @@ const SidePanel = ({
           >
             <span>
               {type?.charAt(7)}
-              {index()}–{indexCaracter(ind)}
+              {index}–{indexCaracter}
             </span>
             <img src={`${import.meta.env.VITE_IMAGE_URL}${image.url}`} />
           </div>
@@ -128,7 +124,7 @@ const SidePanel = ({
         <div className={[styles.titleLine].join(" ")}>
           <div className={[styles.index].join(" ")}>
             {type?.charAt(7)}
-            {index()}
+            {index}
           </div>
           <div className={[styles.title].join(" ")}>{label}</div>
           <Icon
@@ -141,23 +137,30 @@ const SidePanel = ({
         <br />
         {isWide && <br />}
         <div className={[styles.list].join(" ")}>
+          {type === "ProjectShopPage" && (
+            <>
+              <div
+                key={"buy"}
+                id={"buy"}
+                className={[styles.listElement].join(" ")}
+              >
+                {markdownToJSX("Buy", { className: styles.label })}
+                <a
+                  className={[styles.text, "link"].join(" ")}
+                  href={mailToLink}
+                >
+                  Bestellen <span>&#8594;</span>
+                </a>
+              </div>
+            </>
+          )}
           {infoList}
           {shop_info && shopInfo}
-          <div
-            key={"buy"}
-            id={"buy"}
-            className={[styles.listElement].join(" ")}
-          >
-            {markdownToJSX("Buy", { className: styles.label })}
-            <a className={[styles.text, "link"].join(" ")} href={mailToLink}>
-              Bestellen <span>&#8594;</span>
-            </a>
-          </div>
-          <div
+          {/* <div
             className={[
               shop_galerie ? styles.gradientStore : styles.gradient,
             ].join(" ")}
-          />
+          /> */}
         </div>
         {shop_galerie && (
           <div className={[styles.galerieTitle].join(" ")}>Sujetübersicht</div>
@@ -225,7 +228,7 @@ const SidePanel = ({
           <div>
             <p className={[styles.title].join(" ")}>
               {type?.charAt(7)}
-              {index()} {isWide ? label : "info"}
+              {index} {isWide ? label : "info"}
             </p>
           </div>
         </button>
