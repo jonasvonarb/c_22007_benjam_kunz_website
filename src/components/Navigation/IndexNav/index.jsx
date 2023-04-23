@@ -1,11 +1,11 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { useData, useNavigation } from "@/stores";
 
 import styles from "./main.module.styl";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import Icon from "../../UI/Icon";
 import { LazyLoadImage } from "react-lazy-load-image-component";
-import { useRef } from "react";
+import "react-lazy-load-image-component/src/effects/opacity.css";
 
 const query = {
   query: ` {
@@ -192,6 +192,9 @@ const IndexNav = ({}) => {
             delayMethod="debounce"
             className={[styles.image].join(" ")}
             src={`${import.meta.env.VITE_IMAGE_URL}${
+              projectsIndex[projectId]?.index_bild[0].url
+            }`}
+            placeholderSrc={`${import.meta.env.VITE_IMAGE_URL}${
               projectsIndex[projectId]?.index_bild[0].variations[0].url
             }`}
             threshold={(window.innerWidth * 2) / 3}

@@ -163,6 +163,7 @@ const Galerie = ({ videos, galerie, type }) => {
             autoPlay
             muted
             loop
+            playsInline
           >
             <source
               src={`${import.meta.env.VITE_IMAGE_URL}${video.url}`}
