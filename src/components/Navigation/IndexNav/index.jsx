@@ -5,7 +5,7 @@ import styles from "./main.module.styl";
 import { useNavigate } from "react-router-dom";
 import Icon from "../../UI/Icon";
 import { LazyLoadImage } from "react-lazy-load-image-component";
-import "react-lazy-load-image-component/src/effects/opacity.css";
+import "react-lazy-load-image-component/src/effects/black-and-white.css";
 
 const query = {
   query: ` {
@@ -197,6 +197,7 @@ const IndexNav = ({}) => {
             placeholderSrc={`${import.meta.env.VITE_IMAGE_URL}${
               projectsIndex[projectId]?.index_bild[0].variations[0].url
             }`}
+            effect={"black-and-white"}
             threshold={(window.innerWidth * 2) / 3}
             style={{
               height: 100 + "%",
