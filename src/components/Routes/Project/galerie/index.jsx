@@ -78,6 +78,22 @@ const Galerie = ({ videos, galerie, type }) => {
 
   const footerH = isWide ? 33 : 38;
 
+  const isVideoPlaying = (video) =>
+    !!(
+      video.currentTime > 0 &&
+      !video.paused &&
+      !video.ended &&
+      video.readyState > 2
+    );
+  const checkVideoIsPlaying = () => {
+    const videos = document.getElementsByTagName("video");
+    for (const video of videos) {
+      console.log(isVideoPlaying(video));
+      if (isVideoPlaying(video)) return;
+      video.play();
+    }
+  };
+
   const nextImage = () => {
     if (currentImage === maxImages) return;
     const fullGalerie = _videos ? [..._videos, ...galerie] : galerie;
@@ -114,6 +130,7 @@ const Galerie = ({ videos, galerie, type }) => {
 
   const lastImage = () => {
     if (currentImage === 1) return;
+
     const fullGalerie = _videos ? [..._videos, ...galerie] : galerie;
 
     setCurrentImage((prevState) => prevState - 1);
@@ -153,7 +170,9 @@ const Galerie = ({ videos, galerie, type }) => {
         className={[
           styles.videoContainer,
           index === 0 ? styles.firstElement : "",
-          index + 1 === currentImage ? styles.activeImage : styles.inactiveImage,
+          index + 1 === currentImage
+            ? styles.activeImage
+            : styles.inactiveImage,
         ].join(" ")}
       >
         <span>
@@ -186,14 +205,18 @@ const Galerie = ({ videos, galerie, type }) => {
         className={[
           styles.imageContainer,
           index === 0 ? styles.firstElement : "",
-          index + 1 === currentImage ? styles.activeImage : styles.inactiveImage,
+          index + 1 === currentImage
+            ? styles.activeImage
+            : styles.inactiveImage,
         ].join(" ")}
       >
         <LazyLoadImage
           delayMethod="debounce"
           className={[styles.image].join(" ")}
           src={`${import.meta.env.VITE_IMAGE_URL}${image.url}`}
-          placeholderSrc={`${import.meta.env.VITE_IMAGE_URL}${image.variations[0].url}`}
+          placeholderSrc={`${import.meta.env.VITE_IMAGE_URL}${
+            image.variations[0].url
+          }`}
           effect="black-and-white"
           threshold={window.innerWidth * 5 + 100}
           style={{
@@ -208,6 +231,7 @@ const Galerie = ({ videos, galerie, type }) => {
   return (
     <div
       ref={container}
+      onClick={checkVideoIsPlaying}
       className={[styles[`container--${praefix}`]].join(" ")}
     >
       {(overGalerie === 0 || overGalerie === 1 || !isWide) && (
@@ -251,9 +275,11 @@ const Galerie = ({ videos, galerie, type }) => {
             onMouseEnter={enterHanlderLeft}
             onMouseLeave={leaveHanlder}
             onClick={lastImage}
-            className={[styles.arrowLeft, isScrolling && styles.blocked].join(
-              " "
-            )}
+            className={[
+              styles.arrowLeft,
+              isScrolling && styles.blocked,
+              currentImage === 1 && styles.inActive,
+            ].join(" ")}
           />
         </>
       )}
