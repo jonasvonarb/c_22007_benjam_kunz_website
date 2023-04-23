@@ -214,9 +214,9 @@ const Galerie = ({ videos, galerie, type }) => {
           delayMethod="debounce"
           className={[styles.image].join(" ")}
           src={`${import.meta.env.VITE_IMAGE_URL}${image.url}`}
-          // placeholderSrc={`${import.meta.env.VITE_IMAGE_URL}${
-          //   image.variations[0].url
-          // }`}
+          placeholderSrc={`${import.meta.env.VITE_IMAGE_URL}${
+            image.variations[0].url
+          }`}
           // effect="black-and-white"
           threshold={window.innerWidth * 5 + 100}
           style={{
