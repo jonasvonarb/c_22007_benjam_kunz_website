@@ -197,7 +197,6 @@ const IndexNav = ({}) => {
             placeholderSrc={`${import.meta.env.VITE_IMAGE_URL}${
               projectsIndex[projectId]?.index_bild[0].variations[0].url
             }`}
-            effect={"black-and-white"}
             threshold={(window.innerWidth * 2) / 3}
             style={{
               height: 100 + "%",

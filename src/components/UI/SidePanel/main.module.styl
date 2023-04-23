@@ -169,7 +169,6 @@
                 background-color: white
 
         .shopGalerie
-            overflow-x: scroll
             padding-top: var(--padding-element)
             display: flex
             position relative
@@ -195,7 +194,8 @@
                     height: 100%
         .list
             position relative
-            overflow: scroll
+            overflow-x: hidden
+            overflow-y: scroll
             padding-bottom: 0.2rem
             border-top: var(--border)
             .listElement

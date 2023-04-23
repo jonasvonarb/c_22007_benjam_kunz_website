@@ -27,21 +27,20 @@ const SidePanel = ({ project }) => {
   const isWide = useMedia("(min-width: 900px)");
   const galerie = useRef();
   const [index, setIndex] = useState();
-  const [indexCaracter, setIndexCaracter] = useState();
 
+  const keys = useData((state) => {
+    return { ...state.keys };
+  });
+
+  console.log(keys);
   const handelVisibility = (action) => {
     toggleSidePanel(action || "TOGGLE");
     setSearchParams({});
   };
 
   useEffect(() => {
-    console.log(project);
     setIndex(indexSorted[type]?.indexOf(id) + 1);
   }, [JSON.stringify(project)]);
-
-  useEffect(() => {
-    setIndexCaracter((index + 10).toString(36).toUpperCase());
-  }, [index]);
 
   const shopInfo = (
     <div
@@ -104,8 +103,8 @@ const SidePanel = ({ project }) => {
               onClick={() => openImage(ind)}
             >
               <span>
-                {type?.charAt(7)}
-                {index}–{indexCaracter}
+                {type.charAt(7).toUpperCase().replace("P", "F")}
+                {index}–{(ind + 10).toString(36).toUpperCase()}
               </span>
               <img src={`${import.meta.env.VITE_IMAGE_URL}${image.url}`} />
             </div>
@@ -115,9 +114,11 @@ const SidePanel = ({ project }) => {
     );
   };
 
+  const mail_template = useData((state) => state.keys["ABOUT"]?.data?.contact?.first.mail_template) || "";
+
+
   const info = () => {
-    var formattedBody =
-      "Lieber Benjamin \n\n Ich würde gerne [ANZAHL] von [NAME DES PRODUKTES], [NUMMER DES PRODUKTES] bestellen. \n\n Meine Adresse lautet: \n\n [DEINE ADRESSE] \n\n Liebe grüsse [DEIN NAME]";
+    var formattedBody = mail_template
     var mailToLink =
       "mailto:hello@benjaminkunz.ch?subject=Bestellung%20Benjaminkunz.ch:%20________&body=" +
       encodeURIComponent(formattedBody);
@@ -131,7 +132,7 @@ const SidePanel = ({ project }) => {
       >
         <div className={[styles.titleLine].join(" ")}>
           <div className={[styles.index].join(" ")}>
-            {type?.charAt(7)}
+            {type.charAt(7).toUpperCase().replace("P", "F")}
             {index}
           </div>
           <div className={[styles.title].join(" ")}>{label}</div>
@@ -226,7 +227,7 @@ const SidePanel = ({ project }) => {
         <button onClick={handelVisibility} className={[styles.button]}>
           <div>
             <p className={[styles.title].join(" ")}>
-              {type?.charAt(7)}
+              {type.charAt(7).toUpperCase().replace("P", "F")}
               {index} {isWide ? label : "info"}
             </p>
           </div>

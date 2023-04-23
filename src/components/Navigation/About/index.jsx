@@ -21,6 +21,7 @@ const query = {
           description
         }
         e_mail
+        mail_template
         adresse
         design_inhalt
         code

@@ -74,7 +74,7 @@ const Navigation = () => {
           Index
         </div>
       </nav>
-      {project && <SidePanel project={project} />}
+      {project && <SidePanel project={project} mail={false}/>}
     </div>
   );
 };

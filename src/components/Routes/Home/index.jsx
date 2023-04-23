@@ -24,6 +24,7 @@ const Home = ({}) => {
   const navigate = useNavigate();
   let [searchParams, setSearchParams] = useSearchParams();
   const isWide = useMedia("(min-width: 900px)");
+  const indexSorted = useData((state) => state.projectIdsSorted);
 
   const resetOverlaysAction = () => {
     setSearchParams({});
@@ -160,7 +161,12 @@ const Home = ({}) => {
             >
               <div className={[styles.projects].join(" ")}>
                 <p className={[styles.titleProjects].join(" ")}>
-                  {index + 1} {project.label}
+                  {indexSorted[project?.__typename].indexOf(project.id) + 1}
+                  {project?.__typename
+                    .charAt(7)
+                    .toUpperCase()
+                    .replace("P", "F")}{" "}
+                  {project.label}
                 </p>
                 <LazyLoadImage
                   delayMethod="debounce"

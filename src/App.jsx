@@ -10,7 +10,6 @@ import { useData } from "@/stores";
 import { useTransition, a, easings } from "@react-spring/web";
 
 import "./styles/main.styl";
-import SidePanel from "./components/UI/SidePanel";
 
 function App() {
   const location = useLocation();
