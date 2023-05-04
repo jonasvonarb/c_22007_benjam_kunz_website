@@ -13,6 +13,7 @@ const Galerie = ({ videos, galerie, type }) => {
   const location = useLocation();
   const [isScrolling, setIsScrolling] = useState(false);
   const isWide = useMedia("(min-width: 900px)");
+  const isSmall = useMedia("(max-width: 550px)");
 
   useEffect(() => {
     setCurrentImage(1);
@@ -213,11 +214,16 @@ const Galerie = ({ videos, galerie, type }) => {
         <LazyLoadImage
           delayMethod="debounce"
           className={[styles.image].join(" ")}
-          src={`${import.meta.env.VITE_IMAGE_URL}${image.url}`}
+          src={
+            isSmall && image.variations.find((x) => x.url.includes("mobilethumb"))
+              ? `${import.meta.env.VITE_IMAGE_URL}${
+                  image.variations.find((x) => x.url.includes("mobilethumb")).url
+                }`
+              : `${import.meta.env.VITE_IMAGE_URL}${image.url}`
+          }
           placeholderSrc={`${import.meta.env.VITE_IMAGE_URL}${
             image.variations[0].url
           }`}
-          // effect="black-and-white"
           threshold={window.innerWidth * 5 + 100}
           style={{
             width: width + "px",
