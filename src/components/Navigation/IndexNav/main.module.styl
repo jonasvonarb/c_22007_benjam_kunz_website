@@ -41,13 +41,18 @@
             padding-left 0.5rem
             padding-top: 0.2rem
             height calc(var(--height-footer) - 1rem)
+            @media _small
+                height calc(var(--height-footer) - 0.5rem) 
             justify-content: space-between
             align-items: center
         .groups
+            cursor: pointer
             width: 100%
             display: flex
             flex-direction row
             height calc(var(--height-footer) - 1rem)
+            @media _small
+                height calc(var(--height-footer) - 0.5rem) 
             .group
                 padding 0rem 0.6rem
                 padding-top: 0.3rem

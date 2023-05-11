@@ -4,6 +4,7 @@ import { LazyLoadImage } from "react-lazy-load-image-component";
 import "react-lazy-load-image-component/src/effects/black-and-white.css";
 
 import styles from "./main.module.styl";
+import GalerieImage from "./GalerieImage";
 
 const Galerie = ({ videos, galerie, type }) => {
   if (!galerie && !type) return;
@@ -89,7 +90,6 @@ const Galerie = ({ videos, galerie, type }) => {
   const checkVideoIsPlaying = () => {
     const videos = document.getElementsByTagName("video");
     for (const video of videos) {
-      console.log(isVideoPlaying(video));
       if (isVideoPlaying(video)) return;
       video.play();
     }
@@ -196,44 +196,6 @@ const Galerie = ({ videos, galerie, type }) => {
     );
   };
 
-  const Image = (image, index) => {
-    const ratio = image.height / image.width;
-    const add = ratio === 1 ? 1 : ratio < 1 ? 0 : 2;
-    const width = +((window.innerHeight - footerH) / ratio).toFixed(0) + add;
-    return (
-      <div
-        key={index + "Image"}
-        className={[
-          styles.imageContainer,
-          index === 0 ? styles.firstElement : "",
-          index + 1 === currentImage
-            ? styles.activeImage
-            : styles.inactiveImage,
-        ].join(" ")}
-      >
-        <LazyLoadImage
-          delayMethod="debounce"
-          className={[styles.image].join(" ")}
-          src={
-            isSmall && image.variations.find((x) => x.url.includes("mobilethumb"))
-              ? `${import.meta.env.VITE_IMAGE_URL}${
-                  image.variations.find((x) => x.url.includes("mobilethumb")).url
-                }`
-              : `${import.meta.env.VITE_IMAGE_URL}${image.url}`
-          }
-          placeholderSrc={`${import.meta.env.VITE_IMAGE_URL}${
-            image.variations[0].url
-          }`}
-          threshold={window.innerWidth * 5 + 100}
-          style={{
-            width: width + "px",
-            height: window.innerHeight - footerH + "px",
-          }}
-        />
-      </div>
-    );
-  };
-
   return (
     <div
       ref={container}
@@ -290,7 +252,16 @@ const Galerie = ({ videos, galerie, type }) => {
         </>
       )}
       {videos?.map((video, index) => Video(video, index))}
-      {galerie?.map((image, index) => Image(image, index + videos.length))}
+      {galerie?.map((image, index) => (
+        <GalerieImage
+          key={"image" + index + videos.length}
+          image={image}
+          index={index + videos.length}
+          footerH={footerH}
+          currentImage={currentImage}
+          classNames={styles}
+        />
+      ))}
     </div>
   );
 };

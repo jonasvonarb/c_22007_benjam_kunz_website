@@ -41,7 +41,6 @@ const Navigation = () => {
         setProject(getProjectBySlug(slug));
       }, 10);
     } else {
-      console.log(slug);
       setProject(null);
     }
   }, [slug]);

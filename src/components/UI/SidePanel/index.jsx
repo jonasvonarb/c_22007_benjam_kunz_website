@@ -32,7 +32,6 @@ const SidePanel = ({ project }) => {
     return { ...state.keys };
   });
 
-  console.log(keys);
   const handelVisibility = (action) => {
     toggleSidePanel(action || "TOGGLE");
     setSearchParams({});

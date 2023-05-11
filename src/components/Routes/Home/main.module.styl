@@ -11,7 +11,10 @@
         opacity 0.1
     @media _small
         height: 100%;
-        height: -webkit-fill-available;  /* Mozilla-based browsers will ignore this. */
+        height -moz-available;
+        height -webkit-fill-available;
+        height fill-available;
+
 
 .datenschutz
     position fixed
@@ -54,8 +57,9 @@
     transition: opacity 0.5s
     @media _small
         height: 100%;
-        height: -webkit-fill-available;  /* Mozilla-based browsers will ignore this. */
-
+        height -moz-available;
+        height -webkit-fill-available;
+        height fill-available;
     &.blur
         pointer-events: none
     .colorRectContainer
@@ -111,7 +115,8 @@
         overflow-y: hidden;
         overscroll-behavior none
         @media _small
-            height: calc(100% - 200px)
+            min-height: calc(100vh - 200px)
+            height: calc(100vh - 200px)
         .next
         .last
             position fixed

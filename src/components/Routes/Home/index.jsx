@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useCallback } from "react";
 import { useData } from "@/stores";
 
-import { useMedia } from "react-use";
+import { useMedia, useWindowSize } from "react-use";
 
 import { LazyLoadImage } from "react-lazy-load-image-component";
 import "react-lazy-load-image-component/src/effects/blur.css";
@@ -99,12 +99,13 @@ const Home = ({}) => {
   const svgString = svg;
 
   const [currentPos, setCurrentpos] = useState(0);
+  const { width: w, height: h } = useWindowSize();
 
   let galerie = () => {
     const galerie = useRef();
     const nextImage = () => {
       const _curretnPos = galerie.current.scrollLeft;
-      const dist = isWide ? window.innerWidth / 2 : (window.innerWidth / 5) * 4;
+      const dist = isWide ? w / 2 : (w / 5) * 4;
       setCurrentpos(_curretnPos + dist);
       galerie.current.scroll({
         top: 0,
@@ -115,10 +116,10 @@ const Home = ({}) => {
     const lastImage = () => {
       const _curretnPos = galerie.current.scrollLeft;
       if (_curretnPos <= 5) return;
-      setCurrentpos(_curretnPos - window.innerWidth / 2);
+      setCurrentpos(_curretnPos - w / 2);
       galerie.current.scroll({
         top: 0,
-        left: _curretnPos - window.innerWidth / 2,
+        left: _curretnPos - w / 2,
         behavior: "smooth",
       });
     };
@@ -152,7 +153,7 @@ const Home = ({}) => {
           const pBottom = isWide ? 390 : 210;
           const image = project.index_bild[0];
           const ratio = image.height / image.width;
-          const width = (window.innerHeight - pBottom) / ratio;
+          const width = (h - pBottom) / ratio;
           return (
             <div
               className={[styles.link].join(" ")}
@@ -186,7 +187,7 @@ const Home = ({}) => {
                     placeholderSrc={`${import.meta.env.VITE_IMAGE_URL}${
                       image.variations[0].url
                     }`}
-                    threshold={window.innerWidth * 2 + 100}
+                    threshold={w * 2 + 100}
                     wrapperClassName={[styles.imageFilterWrapper].join(" ")}
                     style={{
                       width: width + "px",

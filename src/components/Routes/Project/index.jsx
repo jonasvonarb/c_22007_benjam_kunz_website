@@ -93,7 +93,6 @@ const Project = ({}) => {
   const location = useLocation()
 
   useEffect(() => {
-    console.log(location);
   }, [location.search]);
 
   const resetOverlaysAction = () => {
