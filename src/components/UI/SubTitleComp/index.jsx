@@ -10,6 +10,7 @@ const SubTiotleComp = ({
   icon,
   className,
   clicked,
+  open,
 }) => {
   const clickHandler = () => {
     clicked();
@@ -20,25 +21,25 @@ const SubTiotleComp = ({
       onClick={clickHandler}
       className={[styles.container, className].join(" ")}
     >
-      {text} <Icon name={icon || "closing_x"} />
+      {text} <Icon className={open && styles.open} name={icon || "closing_x"} />
     </div>
   ) : !link ? (
     <a
       href={`${import.meta.env.VITE_IMAGE_URL}${linkIntern}`}
       rel="noreferrer"
       target="_blank"
-      className={[styles.container].join(" ")}
+      className={[styles.container, "link"].join(" ")}
     >
-      {text} {String.fromCharCode(8594)}
+      {text} <p>{String.fromCharCode(8594)}</p>
     </a>
   ) : (
     <a
       href={`${link}`}
       rel="noreferrer"
       target="_blank"
-      className={[styles.container].join(" ")}
+      className={[styles.container, "link"].join(" ")}
     >
-      {text} {String.fromCharCode(8594)}
+      {text} <p>{String.fromCharCode(8594)}</p>
     </a>
   );
 };

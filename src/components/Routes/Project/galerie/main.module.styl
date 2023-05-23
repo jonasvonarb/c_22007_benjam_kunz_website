@@ -1,32 +1,83 @@
+@import '../../../../styles/_variables'
+
+
 .container--full
 .container--scroll
     position fixed
     top: 0
-    left: 0
-    width: 100vw
+    left: 0.4rem
+    width: calc(100vw - 0.8rem)
     height: var(--height-body)
     display: flex
     scroll-snap-type: x mandatory;
     overflow-x: scroll
     overflow-y: hidden
     overscroll-behavior: none
+    cursor: none
+    @media _small
+        height: calc(100% - var(--height-footer))
+        left: 0rem
+        width: calc(100vw)
     .arrowLeft
     .arrowRight
+        cursor: none
+        pointer-events: auto
+        color: white
         position fixed
-        right 10px
-        top: 2px
-        transform: translateY(50%)
-        height: 30px
-        cursor pointer
+        right 0
+        top 0
+        height: var(--height-body)
+        width: 50vw
+        z-index: 500
+        &.blocked
+            pointer-events: none
     .arrowLeft
-        left: 10px
+        left: 0
         right unset
 
+
+
 .imageContainer > span
-.videoContainer > video
-    padding: 0.2rem 0.1rem
+    display: inline-block
+    display: flex
+    height: var(--height-body)
+    padding-bottom: 0px
+    background-size: contain !important
+    background-repeat: no-repeat !important
+
+.container--scroll
+    .imageContainer
+    .videoContainer
+        transition: opacity 0.3s
+        &.inactiveImage
+            @media _desktop
+                opacity 0.2
+        &.activeImage
+            @media _desktop
+                opacity 1
+
+
+
+.imageContainer > span > img
+.videoContainer > span > video
     overflow: hidden
     height: 100%
+    padding-left 0rem
+    padding-right 0.4rem
+    padding-top 0.4rem
+    @media _small
+        padding-left: 0.2rem
+        padding-top: 0.2rem
+        padding-right: 0.2rem
+
+.firstElement > span > img
+.firstElement > span > video
+    margin-left: -0.4rem
+    @media _small
+        margin 0
+
+
+
 
 .container--scroll
     .imageContainer
@@ -34,14 +85,12 @@
         height: 100%
         scroll-snap-align: center
         display: block
-        .image
-        .video
+        img
+        video
             width: auto
-            height: 100%
             max-width: 100vw
             object-fit: contain
             object-position: top left
-
 .container--full
     scroll-snap-type: x mandatory;
     .imageContainer
@@ -50,10 +99,11 @@
         width: 100vw
         height: 100%
         flex-shrink: 0
-        .image
-        .video
-            height: 100%
+        img
+        video
+            height: 100% 
             width: 100%
+            max-width: 100vw
             object-fit: contain
             object-position: top left
 
@@ -65,3 +115,31 @@
 .container--scroll 
   -ms-overflow-style: none;  /* IE and Edge */
   scrollbar-width: none;  /* Firefox */
+
+.cursor
+    position fixed
+    display: flex
+    justify-content: center
+    gap 6px
+    z-index 10000000
+    transform: translate(50%, -50%)
+    color: rgb(200,200,200)
+    medium_font-alt()
+    cursor none
+    mix-blend-mode: exclusion
+    pointer-events: none !important
+    top: 0
+    right 0
+    &.scrolling
+        // opacity 0.2
+        // gap 20px
+        // color: var(--benj-yellow)
+    .arrowInline
+        pointer-events: none !important
+        filter: invert() brightness(0.8)
+        height: 32px
+        padding-top 2px 
+        opacity 0
+        &.activeArrow
+            opacity 1
+    

@@ -15,10 +15,10 @@ a
   overscroll-behavior: none
   -ms-overflow-style: none;  /* IE and Edge */
   scrollbar-width: none;  /* Firefox */
-  hyphens: auto
-
-
-
+  hyphens auto
+  -webkit-user-select: none !important; /* Safari */
+  -ms-user-select: none !important; /* IE 10 and IE 11 */
+  user-select: none !important; /* Standard syntax */
 
 #body
   background-color var(--white)
@@ -29,6 +29,9 @@ a
   width: 100vw
   overflow: hidden
   small_font()
+  @media _small
+    height: 100%;
+    height: -webkit-fill-available;
   
   // @media _phone
   //   padding var(--padding)
@@ -36,44 +39,33 @@ a
   .big_font
     large_font()
 
-.duoTone
-  background-color white
-
-.duoTone img 
-  transition: opacity .3s
-  filter: grayscale(100%) contrast(1)
-  mix-blend-mode: multiply
-  opacity: 100 
-  opacity 0.6
-  
-.duoTone:hover img 
-  filter: grayscale(100%) contrast(1) 
-  opacity 1
-
-
-.duoTone::before 
-  transition: all .3s
-  background-color: var(--benj-gray)
-  bottom: 0
-  content: ''
-  left: 0
-  mix-blend-mode: lighten
-  position: absolute
-  top 0.5rem
-  left 0.5rem
-  width: calc(100% - 2 * 0.5rem)
-  height: calc(100% - 2 * 0.5rem)
-  z-index: 1
-  opacity 0.5
-
-.duoTone:hover::before
-  background-color: var(--benj-yellow)
-  opacity 0.5
-
-
 details > summary {
   list-style: none;
 }
 details > summary::-webkit-details-marker {
   display: none;
 }
+
+// Transiitons
+
+.siteTrans-enter {
+  opacity: 0;
+}
+.siteTrans-enter-active {
+  opacity: 1;
+  transition: opacity 200ms;
+}
+.siteTrans-exit {
+  opacity: 1;
+}
+.siteTrans-exit-active {
+  opacity: 0;
+  transition: opacity 200ms;
+}
+
+.link
+  width: 100%
+  display flex
+  justify-content: space-between
+  &:hover
+    opacity 0.6 

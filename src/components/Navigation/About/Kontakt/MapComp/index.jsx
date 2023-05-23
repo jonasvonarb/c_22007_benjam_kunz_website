@@ -1,13 +1,11 @@
 import React, { useState, useEffect } from "react";
 
-import { WMSTileLayer, useMap, Marker } from "react-leaflet";
+import { WMSTileLayer, Marker } from "react-leaflet";
 
-import styles from "./main.module.styl";
 
-import { iconOffice } from "./icons";
+import { iconOffice, iconSBB } from "./icons";
 
 const MapComp = () => {
-  const map = useMap();
   const mapOptions = {
     url: "https://wms.geo.admin.ch/?",
     layers: "ch.swisstopo.swisssurface3d-reliefschattierung_monodirektional",
@@ -20,7 +18,8 @@ const MapComp = () => {
   return (
     <>
       <WMSTileLayer {...mapOptions} />
-      <Marker position={[47.044849, 8.305841]} icon={iconOffice}></Marker>
+      <Marker position={[47.044849, 8.305841]} icon={iconOffice} />
+      <Marker position={[47.0493, 8.3105]} icon={iconSBB} />
     </>
   );
 };

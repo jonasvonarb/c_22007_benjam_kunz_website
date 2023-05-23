@@ -1,14 +1,12 @@
 import React, { useState, useEffect } from "react";
 
-import { useData, useNavigation } from "@/stores";
+import { useData } from "@/stores";
 import { useSearchParams } from "react-router-dom";
 
 import styles from "./main.module.styl";
 
 import Studio from "./Studio";
 import Kontakt from "./Kontakt";
-import TitleComp from "@/components/UI/TitleComp";
-import { markdownToJSX } from "@/helpers/utils";
 
 import Icon from "@/components/UI/Icon";
 
@@ -23,6 +21,7 @@ const query = {
           description
         }
         e_mail
+        mail_template
         adresse
         design_inhalt
         code
@@ -66,13 +65,12 @@ const query = {
 const About = ({}) => {
   const fetch = useData((state) => state.fetch);
   const about = useData((state) => state.keys["ABOUT"]?.data) || [];
-  const [iActive, setImActive] = useState(false);
   let [searchParams, setSearchParams] = useSearchParams();
   let [prevParam, setPrevParam] = useState("");
 
   const changeSite = (site) => {
     if (site) {
-      setSearchParams({ p: site });
+      setSearchParams({ about: site });
       setPrevParam(site);
     } else {
       setSearchParams({});
@@ -94,7 +92,7 @@ const About = ({}) => {
     <div
       className={[
         styles.container,
-        searchParams.get("p") && about.length !== 0 && styles.active,
+        searchParams.get("about") && about.length !== 0 && styles.active,
       ].join(" ")}
     >
       <div className={[styles.header].join(" ")}>
@@ -106,7 +104,7 @@ const About = ({}) => {
           <div
             className={[
               styles.navItem,
-              (searchParams.get("p") === "s" || !searchParams.get("p")) &&
+              (searchParams.get("about") === "s" || !searchParams.get("about")) &&
                 styles.active,
             ].join(" ")}
             onClick={() => changeSite("s")}
@@ -116,7 +114,7 @@ const About = ({}) => {
           <div
             className={[
               styles.navItem,
-              searchParams.get("p") === "k" && styles.active,
+              searchParams.get("about") === "k" && styles.active,
             ].join(" ")}
             onClick={() => changeSite("k")}
           >
@@ -124,22 +122,22 @@ const About = ({}) => {
           </div>
         </div>
       </div>
-      {(searchParams.get("p") === "s" || prevParam === "s") && (
+      {(searchParams.get("about") === "s" || prevParam === "s") && (
         <div
           className={[
             styles.site,
-            (searchParams.get("p") === "s" || prevParam === "s") &&
+            (searchParams.get("about") === "s" || prevParam === "s") &&
               styles.active,
           ].join(" ")}
         >
           <Studio about={about} />
         </div>
       )}
-      {(searchParams.get("p") === "k" || prevParam === "k") && (
+      {(searchParams.get("about") === "k" || prevParam === "k") && (
         <div
           className={[
             styles.site,
-            (searchParams.get("p") === "k" || prevParam === "k") &&
+            (searchParams.get("about") === "k" || prevParam === "k") &&
               styles.active,
           ].join(" ")}
         >

@@ -1,0 +1,233 @@
+@import '../../../styles/_variables'
+
+.container
+    position: absolute
+    display: flex
+    justify-content: flex-end;
+    flex-direction: column;
+    right: 0
+    bottom: 0
+    width: calc(25vw - .5rem)
+    min-width 400px
+    height: 100vh
+    pointer-events: none
+    z-index 50
+    @media _small
+        height: 100%;
+        height: -webkit-fill-available;
+        width: 100vw
+        left: 0
+        min-width none
+    .button
+        pointer-events: all
+        all: unset
+        background-color: white
+        position: absolute
+        left: 0
+        bottom: 0
+        width: 100%
+        small_font-alt()
+        height var(--height-footer)
+        @media _small
+            width: 25vw
+            left calc(75vw - 0.5rem)
+        div
+            padding-left 0.5rem
+            border-left: var(--border-light)
+            display: flex
+            margin-top 1rem
+            height: calc(100%)
+            cursor pointer
+            &:hover
+                color: var(--benj-gray-dark)
+                border-color: var(--benj-gray-dark)
+            .index
+                pointer-events: all
+                width: 20%
+            .title
+                pointer-events: all
+                width: 80%
+    .info
+        position relative
+        border-left: solid 0.5px gray
+        pointer-events: all
+        height: 100%
+        display: flex
+        justify-content: flex-end;
+        flex-direction: column
+        z-index 250
+        background: var(--benj-yellow)
+        padding: var(--padding-element)
+        padding-bottom: 0
+        transform: translateY(100%)
+        transition: transform 0.5s
+        hyphens: auto
+        @media _small
+            left: 0
+            width 100vw
+            left: 0
+            height: auto
+            max-height: 80vh
+            min-width none
+            max-width: none
+        > *
+            opacity all 0.5s
+        &.hidden > *
+            opacity 0.1
+            pointer-events: none
+        &.active
+            transform: translateY(0)
+        .titleLine
+            display: flex
+            justify-content: space-between;
+            border-bottom: var(--border)
+            small_font-alt()
+            .index
+                width: 20%
+            .title
+                width: 80%
+        .subtitle
+            title_font()
+            width: 95%
+        .galerieTitle
+            small_font-alt()
+            border-bottom: var(--border)
+        .imageContainer
+            position absolute
+            width: calc(100% - 2rem)
+            bottom: 1rem
+            z-index: 260
+            pointer-events: auto !important
+            opacity 1 !important
+            .icon
+            .iconRight
+            .iconLeft
+                position absolute
+                z-index 261
+                background-color: var(--benj-yellow)
+            .icon
+                padding 0.4rem
+                transform: translate(-50%,0)
+                bottom 0rem
+                left 50%
+            .iconRight
+            .iconLeft
+                padding: 0.2rem
+                display: flex
+            .iconRight
+                right: 0
+                top: 50%
+                padding-right: 0rem
+                transform: translate(0,-50%)
+            .iconLeft
+                padding-left: 0rem
+                left: 0
+                top: 50%
+                transform: translate(0,-50%)
+            .previewImage
+                width: 100%
+                z-index 260
+                &.loading
+                    display: none
+            .previewImageLoader
+                width: 100%
+                z-index 260
+                &.loading
+                    filter blur(1px)
+            .previwImage.isLoaded
+                height: auto
+            .previewImageLoader.isLoaded
+                height: 0
+                overflow: hidden
+            .previwImage.loading
+                display: none
+            .previewImageLoader.loading
+                height: auto
+        
+
+
+        .next
+        .last
+            position absolute
+            width: 24.5px
+            left: -3px
+            margin-top: 129px
+            background-color: var(--benj-yellow)
+            z-index 1000
+            padding: 0.4rem
+            display: flex
+            cursor: pointer
+            @media _small
+                display: none
+            &:hover
+                background-color: white
+        .next 
+            right: -3px
+            left: unset
+        .inactive
+            opacity 0.5
+            &:hover
+                background-color: white
+
+        .shopGalerie
+            padding-top: var(--padding-element)
+            display: flex
+            position relative
+            overscroll-behavior: none
+            gap: 4px
+            margin-bottom 1rem
+            overflow-y: hidden
+            overflow-x: visible
+            cursor pointer
+            height: 250px
+            .image
+                height: 100%
+                flex-shrink: 0
+                position relative
+                span
+                    position absolute
+                    top: 0
+                    left: 0
+                    background-color: var(--benj-yellow)
+                    padding-right 3px
+                    small_font-alt()
+                img
+                    height: 100%
+        .list
+            position relative
+            overflow-x: hidden
+            overflow-y: scroll
+            padding-bottom: 0.2rem
+            border-top: var(--border)
+            .listElement
+                display flex
+                border-top: var(--border)
+                padding .3rem 0 .4rem 0
+                &:first-child 
+                    border-top: none
+                .label
+                    width: 20%
+                    label_font()
+                .text
+                    width: 80%
+        .gradient
+            background: var(--benj-yellow);
+            background: -moz-linear-gradient(0deg, var(--benj-yellow) 0%, rgba(0,255,255,0) 100%)
+            background: -webkit-linear-gradient(0deg, var(--benj-yellow) 0%, rgba(0,255,255,0) 100%)
+            background: linear-gradient(0deg, var(--benj-yellow) 0%, rgba(0,255,255,0) 100%)
+            width: 100%
+            height: 1.4rem
+            position: fixed
+            bottom: 0
+        .gradientStore
+            background: var(--benj-yellow);
+            background: -moz-linear-gradient(0deg, var(--benj-yellow) 0%, rgba(0,255,255,0) 100%)
+            background: -webkit-linear-gradient(0deg, var(--benj-yellow) 0%, rgba(0,255,255,0) 100%)
+            background: linear-gradient(0deg, var(--benj-yellow) 0%, rgba(0,255,255,0) 100%)
+            width: 100%
+            height: 1.4rem
+            position: fixed
+            bottom: 228px
+
+.shopInfo
+    padding-bottom: 40px !important

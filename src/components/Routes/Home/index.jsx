@@ -1,12 +1,19 @@
 import React, { useState, useEffect, useCallback } from "react";
 import { useData } from "@/stores";
 
+import { useMedia, useWindowSize } from "react-use";
+
 import { LazyLoadImage } from "react-lazy-load-image-component";
 import "react-lazy-load-image-component/src/effects/blur.css";
 
 import styles from "./main.module.styl";
-import { Link } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
+
 import { useNavigation } from "../../../stores/navigation";
+import { useRef } from "react";
+import Chevron from "../../UI/Chevron";
+
+import Icon from "@/components/UI/Icon";
 
 const Home = ({}) => {
   const projectsIndex = useData((state) => state.keys["INDEX"]) || {};
@@ -14,8 +21,16 @@ const Home = ({}) => {
   const sidePanelVisibility = useNavigation((state) => state.sidePanelIsActive);
   const activeMenu = useNavigation((state) => state.activeMenu);
   const resetOverlays = useNavigation((state) => state.resetAllOverlays);
+  const navigate = useNavigate();
+  let [searchParams, setSearchParams] = useSearchParams();
+  const isWide = useMedia("(min-width: 900px)");
+  const indexSorted = useData((state) => state.projectIdsSorted);
 
-  //eternal loop?
+  const resetOverlaysAction = () => {
+    setSearchParams({});
+    resetOverlays();
+  };
+
   useEffect(() => {
     const projets = Object.values(projectsIndex).filter(
       (project) => project.homepage_index !== null
@@ -48,58 +63,199 @@ const Home = ({}) => {
       </p>
     </div>
   );
+  const svg = `
+    <filter
+      id="yellow-blue-acid"
+      x="-10%"
+      y="-10%"
+      width="120%"
+      height="120%"
+      filterUnits="objectBoundingBox"
+      primitiveUnits="userSpaceOnUse"
+      colorInterpolationFilters="sRGB"
+    >
+      <feColorMatrix
+        type="matrix"
+        values=".33 .33 .33 0 0
+        .33 .33 .33 0 0
+        .33 .33 .33 0 0
+        0 0 0 1 0"
+        in="SourceGraphic"
+        result="colormatrix"
+      />
+      <feComponentTransfer in="colormatrix" result="componentTransfer">
+        <feFuncR type="table" tableValues="0.9 0.59 0.94" />
+        <feFuncG type="table" tableValues="0.9 0.59 1" />
+        <feFuncB type="table" tableValues="0.9 0.59 0.48" />
+        <feFuncA type="table" tableValues="0 1" />
+      </feComponentTransfer>
+      <feBlend
+        mode="normal"
+        in="componentTransfer"
+        in2="SourceGraphic"
+        result="blend"
+      />
+    </filter>`;
+  const svgString = svg;
+
+  const [currentPos, setCurrentpos] = useState(0);
+  const { width: w, height: h } = useWindowSize();
 
   let galerie = () => {
+    const galerie = useRef();
+    const nextImage = () => {
+      const _curretnPos = galerie.current.scrollLeft;
+      const dist = isWide ? w / 2 : (w / 5) * 4;
+      setCurrentpos(_curretnPos + dist);
+      galerie.current.scroll({
+        top: 0,
+        left: _curretnPos + dist,
+        behavior: "smooth",
+      });
+    };
+    const lastImage = () => {
+      const _curretnPos = galerie.current.scrollLeft;
+      if (_curretnPos <= 5) return;
+      setCurrentpos(_curretnPos - w / 2);
+      galerie.current.scroll({
+        top: 0,
+        left: _curretnPos - w / 2,
+        behavior: "smooth",
+      });
+    };
+
     return (
-      <div className={[styles.galerie].join(" ")}>
+      <div ref={galerie} className={[styles.galerie].join(" ")}>
+        <div
+          onClick={lastImage}
+          className={[styles.last, currentPos === 0 && styles.inactive].join(
+            " "
+          )}
+        >
+          <Chevron left={true} />
+        </div>
+        <div onClick={nextImage} className={[styles.next].join(" ")}>
+          <Chevron />
+        </div>
+        <svg
+          style={{
+            position: "fixed",
+            display: "none",
+            height: 0,
+            opacity: 0,
+            width: 0,
+            top: "-100vh",
+            left: "-100vw",
+          }}
+          dangerouslySetInnerHTML={{ __html: svgString }}
+        />
         {homeProjects.map((project, index) => {
+          const pBottom = isWide ? 390 : 210;
           const image = project.index_bild[0];
           const ratio = image.height / image.width;
-          const width = (window.innerHeight - 10  - 380 ) / ratio;
+          const width = (h - pBottom) / ratio;
           return (
-            <Link key={project.id} to={`${project.name}`}>
+            <div
+              className={[styles.link].join(" ")}
+              key={project.id}
+              onClick={() => navigate(`/${project.name}`)}
+            >
               <div className={[styles.projects].join(" ")}>
                 <p className={[styles.titleProjects].join(" ")}>
-                  {index + 1} {project.label}
+                  {indexSorted[project?.__typename].indexOf(project.id) + 1}
+                  {project?.__typename
+                    .charAt(7)
+                    .toUpperCase()
+                    .replace("P", "F")}{" "}
+                  {project.label}
                 </p>
-                <div className={["duoTone", styles.image].join(" ")}>
+                <LazyLoadImage
+                  delayMethod="debounce"
+                  className={[styles.image].join(" ")}
+                  src={`${import.meta.env.VITE_IMAGE_URL}${image.url}`}
+                  wrapperClassName={[styles.imageWrapper].join(" ")}
+                  style={{
+                    width: width + "px",
+                    height: 100 + "%",
+                  }}
+                />
+                {isWide && (
                   <LazyLoadImage
                     delayMethod="debounce"
-                    className={[styles.image].join(" ")}
+                    className={[styles.imageFilter].join(" ")}
                     src={`${import.meta.env.VITE_IMAGE_URL}${image.url}`}
                     placeholderSrc={`${import.meta.env.VITE_IMAGE_URL}${
                       image.variations[0].url
                     }`}
-                    threshold={window.innerWidth * 2 + 100}
+                    threshold={w * 2 + 100}
+                    wrapperClassName={[styles.imageFilterWrapper].join(" ")}
                     style={{
                       width: width + "px",
                       height: 100 + "%",
+                      backgroundColor: "white",
                     }}
                   />
-                </div>
+                )}
               </div>
-            </Link>
+            </div>
           );
         })}
       </div>
     );
   };
 
-  return (
-    <div
-      onClick={(sidePanelVisibility || activeMenu) && resetOverlays}
-      className={[
-        styles.wrapper,
-        (sidePanelVisibility || activeMenu) && styles.blur,
-      ].join(" ")}
-    >
+  const [dataIsActive, setDataIsActive] = useState(true);
+
+  const Datenschutz = () => {
+    const setDataFalse = () => {
+      localStorage.setItem("visitedBenjaminKunz", "true");
+      setDataIsActive(false);
+    };
+    return (
       <div
         className={[
-          styles.container,
-          (sidePanelVisibility || activeMenu) && styles.blur,
+          styles.datenschutz,
+          localStorage.getItem("visitedBenjaminKunz") !== "true" &&
+            dataIsActive &&
+            styles.active,
         ].join(" ")}
       >
+        <Icon
+          name="closing_x"
+          className={styles.closeButton}
+          clicked={setDataFalse}
+        />
+        <p className={styles.titleDaten}>Datenschutz</p>
+        <p>
+          Indem Sie mit dem Besuch der Seite fortfahren, akzeptieren Sie die
+          Verwendung von Cookies.
+        </p>
+      </div>
+    );
+  };
+
+  return (
+    <div
+      onClick={
+        sidePanelVisibility ||
+        activeMenu ||
+        searchParams.get("about") === "s" ||
+        searchParams.get("about") === "k"
+          ? resetOverlaysAction
+          : null
+      }
+      className={[
+        styles.wrapper,
+        (sidePanelVisibility ||
+          activeMenu ||
+          searchParams.get("about") === "s" ||
+          searchParams.get("about") === "k") &&
+          styles.blur,
+      ].join(" ")}
+    >
+      <div className={[styles.container].join(" ")}>
         {galerie()}
+        {Datenschutz()}
         {colorRects()}
         {textTitle()}
       </div>

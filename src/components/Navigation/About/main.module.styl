@@ -6,10 +6,9 @@
     overflow: hidden
     left: 0 
     bottom 0
-    height: 100vh
+    height: 80vh
     width: calc(100vw - (max(25vw, 400px) + calc((100vw - max(25vw, 400px)) / 3)))
-    min-width 800px
-    min-width 1000px
+    min-width calc(max(900px, 75vw / 3 + 100px))
     z-index 500
     display: flex
     flex-direction: column
@@ -17,6 +16,11 @@
     pointer-events: none
     transform: translateY(100%)
     transition: all 0.5s
+    @media _small
+        width: 100vw
+        min-width none
+        height: 80vh
+        overflow: scroll
     &.active
         transform: translateY(0)
     .header
@@ -24,28 +28,36 @@
         border-right solid black 1px
         flex-shrink: 0
         pointer-events: all
-        cursor: pointer
         small_font-alt()
         background-color: var(--benj-yellow)
-        text-transform: uppercase
+        @media _small
+            width: 100vw
+            border 0
         .title
             display flex
             justify-content: space-between
             padding .2rem 0.5rem
             height: 50%
+            .closeButton
+                padding: 0.3rem
+                &:hover
+                    background-color var(--benj-gray) 
         .nav
+            cursor pointer
             display flex
             height: 50%
             .navItem
                 padding .2rem 0.5rem
                 width: 50%
-                cursor pointer
+                &:hover
+                    background-color var(--benj-gray) 
                 &.active
-                    background white
+                    background-color white
     .site
         flex-shrink: 1
         pointer-events: all
         display flex
+        justify-content: space-between
         background-color: white
         gap: var(--padding)
         padding: var(--padding)
@@ -53,9 +65,18 @@
         max-height: calc(100% - 45px)
         transition: all 0.5s
         border-right solid black 1px
+        @media _small
+            width: 100vw
+            flex-direction: column
+            overflow-y scroll
+            overflow-x hidden 
+            padding-bottom 5rem
+            padding-top 3rem
+            border 0
         .left
             flex-shrink: 1
             width: calc(100% - 100px)
+            max-width 950px
             .imageWrapper
                 width 100%
                 img
@@ -68,7 +89,6 @@
             flex-direction: column
             gap: 3rem
             .impressumButton
-                cursor pointer
                 position absolute
                 bottom: var(--padding)
                 small_font-alt()
@@ -83,7 +103,6 @@
                 &.active
                     transform: translateY(0)
                 .closeButton
-                    cursor pointer
                     position absolute
                     top: var(--padding)
                     right: var(--padding)

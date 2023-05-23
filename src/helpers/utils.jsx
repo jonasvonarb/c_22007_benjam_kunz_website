@@ -1,5 +1,7 @@
 import { marked } from "marked";
 
+import React from "react";
+
 const getTagBySlug = (slug, list) => {
   const _tag = Object.values(list).find(
     (item) => item["schema:identifier"] === slug
@@ -45,9 +47,8 @@ const markdownToHtml = (source) => {
     let targetHost = pathArray?.[2]?.replace("www.", "");
 
     let target = targetHost !== host ? "_blank" : "_self";
-    return `<a target="${target}" href="${href}" title="${
-      title || text
-    }" class="link">${text}</a>`;
+    return `<a target="${target}" rel="noreferrer"
+ href="${href}" title="${title || text}" class="link">${text}</a>`;
   };
 
   return marked(source, { renderer: renderer });
@@ -55,7 +56,6 @@ const markdownToHtml = (source) => {
 
 const markdownToJSX = (source, { className }) => {
   if (!source) return;
-
   var renderer = new marked.Renderer();
 
   marked.setOptions({
@@ -69,11 +69,11 @@ const markdownToJSX = (source, { className }) => {
     let targetHost = pathArray[2].replace("www.", "");
 
     let target = targetHost !== host ? "_blank" : "_self";
-    return `<a target="${target}" href="${href}" title="${
+    return `<a target="${target}" rel="noreferrer"
+ href="${href}" title="${
       title || text
-    }" class="link">${text} &#8594</a>`;
+    }" class="link">${text}<span>&#8594;</span></a>`;
   };
-
   const markdown = marked(source, { renderer: renderer });
 
   return (

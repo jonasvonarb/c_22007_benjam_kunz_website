@@ -1,10 +1,11 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { useData, useNavigation } from "@/stores";
 
 import styles from "./main.module.styl";
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import Icon from "../../UI/Icon";
 import { LazyLoadImage } from "react-lazy-load-image-component";
+import "react-lazy-load-image-component/src/effects/black-and-white.css";
 
 const query = {
   query: ` {
@@ -98,6 +99,8 @@ const IndexNav = ({}) => {
   const setActiveMenu = useNavigation((state) => state.setActiveMenu);
   const activeGroup = useNavigation((state) => state.activeGroup);
   const setActiveGroup = useNavigation((state) => state.setActiveGroup);
+  const navigate = useNavigate();
+  const groupRef = useRef();
 
   useEffect(() => {
     const transformer = (data) => {
@@ -126,7 +129,13 @@ const IndexNav = ({}) => {
 
   const groupClickHandler = (event) => {
     const index = event.target.getAttribute("index");
+    groupRef.current.scrollTo(0, 0);
     setActiveGroup(+index);
+  };
+
+  const linkTo = (to) => {
+    closeMenu();
+    navigate(`${projectsIndex[to]?.name}`);
   };
 
   const closeMenu = () => {
@@ -140,18 +149,17 @@ const IndexNav = ({}) => {
           <p>Index</p>
           <Icon
             name="closing_x"
-            className={styles.icon}
-            clicked={() => handelVisibility(false)}
+            className={[styles.icon, styles.closingX].join(" ")}
           />
         </div>
         <div className={[styles.groups].join(" ")}>
-          {Object.keys(indexSorted).map((group, index) => (
+          {Object.keys(indexSorted).map((group, ind) => (
             <div
               key={group}
-              index={index}
+              index={ind}
               className={[
                 styles.group,
-                activeGroup === index && styles.active,
+                activeGroup === ind && styles.active,
               ].join(" ")}
               onClick={groupClickHandler}
             >
@@ -165,25 +173,28 @@ const IndexNav = ({}) => {
     );
   };
 
-  const Group = (group, groupName, index) => {
-    return group.map((projectId) => (
-      <Link
-        onClick={closeMenu}
+  const Group = (group, groupName) => {
+    return group.map((projectId, index) => (
+      <div
+        onClick={() => linkTo(projectId)}
+        className={styles.link}
         key={projectId}
-        to={`${projectsIndex[projectId]?.name}`}
       >
         <div
           key={projectsIndex[projectId]?.id}
           className={[styles.projects].join(" ")}
         >
           <div className={[styles.title].join(" ")}>
-            {groupName.charAt(0).toUpperCase() + (index + 1)}{" "}
+            {groupName.charAt(7).toUpperCase().replace("P", "F") + (index + 1)}{" "}
             {projectsIndex[projectId]?.label}
           </div>
           <LazyLoadImage
             delayMethod="debounce"
             className={[styles.image].join(" ")}
             src={`${import.meta.env.VITE_IMAGE_URL}${
+              projectsIndex[projectId]?.index_bild[0].url
+            }`}
+            placeholderSrc={`${import.meta.env.VITE_IMAGE_URL}${
               projectsIndex[projectId]?.index_bild[0].variations[0].url
             }`}
             threshold={(window.innerWidth * 2) / 3}
@@ -192,7 +203,7 @@ const IndexNav = ({}) => {
             }}
           />
         </div>
-      </Link>
+      </div>
     ));
   };
 
@@ -204,12 +215,12 @@ const IndexNav = ({}) => {
       ].join(" ")}
     >
       {Header()}
-      <div className={[styles.index].join(" ")}>
+      <div ref={groupRef} className={[styles.index].join(" ")}>
         {Object.keys(indexSorted).map(
           (groupName, index) =>
             activeGroup === index && (
               <div key={groupName} className={[styles.group].join(" ")}>
-                {Group(indexSorted[groupName], groupName, index)}
+                {Group(indexSorted[groupName], groupName)}
               </div>
             )
         )}

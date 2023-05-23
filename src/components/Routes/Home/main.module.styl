@@ -1,11 +1,48 @@
+@import '../../../styles/_variables'
+
 .wrapper
-    position fixed
+    position relative
     top: 0
     left 0
     height 100vh
     width: 100vw
+    transition opacity 0.5s
     &.blur
-        opacity 0.2
+        opacity 0.1
+    @media _small
+        height: 100%;
+        height -moz-available;
+        height -webkit-fill-available;
+        height fill-available;
+
+
+.datenschutz
+    position fixed
+    bottom 380px
+    z-index -1000000000
+    right 50vw
+    width: 25vw
+    background: var(--benj-yellow)
+    padding: 1rem
+    padding-right 3.2rem
+    opacity 0
+    pointer-events: none
+    transition: opacity 0.5s
+    &.active
+        opacity 1
+        pointer-events: all
+        z-index 1000000000
+    @media _small
+        bottom 200px
+        width: 50vw
+    .titleDaten
+        small_font-alt()
+        padding-bottom 0.2rem
+        color: black
+    .closeButton
+        position absolute
+        right 1rem
+        top 1rem
 
 
 .container
@@ -18,12 +55,20 @@
     width: 100vw
     background: white
     transition: opacity 0.5s
+    @media _small
+        height: 100%;
+        height -moz-available;
+        height -webkit-fill-available;
+        height fill-available;
     &.blur
         pointer-events: none
     .colorRectContainer
         height: 22px
         display: flex
         justify-content: space-around
+        @media _small
+            height: 10px
+            width: 200%
         div
             width: 100%
             background var(--benj-gray)
@@ -50,39 +95,89 @@
         display: flex
         align-items: flex-start
         p
-
             padding var(--padding--element)
             padding-top 7.5rem
             padding-left 1.4rem 
+            padding-right 1.4rem 
             padding-bottom 1.4rem 
             background var(--benj-gray)
-            title_font()
+            large_font()
             width: 50%
             flex-shrink: 1
+            @media _small
+                padding 2rem .5rem .5rem .5rem
     .galerie
+        position relative
         display: flex
         height: calc(100% - 380px)
         width: 100vw
-        overflow-x: scroll
+        overflow-x: scroll;
+        overflow-y: hidden;
         overscroll-behavior none
-        .projects
-            position relative
-            height: 100%
-            padding 0.5rem
-            .image
-            .image > span
+        @media _small
+            min-height: calc(100vh - 200px)
+            height: calc(100vh - 200px)
+        .next
+        .last
+            position fixed
+            top calc((100% - 380px) / 2 )
+            left 0
+            background-color: white
+            z-index 1000
+            padding: 0.4rem
+            margin: auto
+            display: flex
+            cursor: pointer
+            @media _small
+                display: none
+            &:hover
+                background-color: var(--benj-yellow)
+        .next 
+            right 0
+            left: unset
+        .inactive
+            opacity 0.5
+            &:hover
+                background-color: white
+        .link
+            .projects
+                position relative
                 height: 100%
-            .titleProjects
-                z-index: 90
-                position absolute
-                top: 0
-                left: 0
-                text-transform: uppercase
-                background: white
-                color: black
-                padding .5rem 1rem .1rem .5rem
-
-:global(.lazy-load-image-background)
-    background-color: var(--benj-yellow)
-:global(.lazy-load-image-loaded)
-    background-color: transparent
+                padding 0.8rem 0.4rem
+                @media _small
+                    width: 60vw 
+                    overflow: hidden
+                .imageFilterWrapper > img
+                    filter: url(#yellow-blue-acid);
+                .imageWrapper > img
+                    @media _small
+                        object-fit: cover; /* Do not scale the image */
+                        width: 60vw !important
+                .imageWrapper
+                    position absolute
+                    height: calc(100% - 1.6rem)
+                    cursor pointer 
+                .imageFilterWrapper
+                    height: 100%    
+                    transition: opacity 0.1s
+                    opacity 1
+                    cursor pointer
+                    @media _small
+                        opacity 0
+                        display none
+                    @media _desktop
+                        &:hover
+                            cursor pointer
+                            opacity 0
+                            // filter grayscale(0)
+                .image > span
+                    height: 100%
+                .titleProjects
+                    small_font-alt()
+                    z-index: 90
+                    position absolute
+                    top: 0
+                    left: 0
+                    background: white
+                    color: black
+                    padding .5rem 1rem .1rem .5rem

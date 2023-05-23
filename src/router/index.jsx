@@ -1,9 +1,9 @@
 import { createBrowserRouter } from "react-router-dom";
 
-import React from "react";
+import React, { lazy } from "react";
 import App from "../App";
-import Home from "../components/Routes/Home";
-import Project from "../components/Routes/Project";
+const Home = lazy(() => import("../components/Routes/Home"));
+const Project = lazy(() => import("../components/Routes/Project"));
 
 export const router = createBrowserRouter([
   {
@@ -12,11 +12,11 @@ export const router = createBrowserRouter([
     children: [
       {
         path: "/:projectName",
-        element: <Project />,
+        element: Project,
       },
       {
         path: "/",
-        element: <Home />,
+        element: Home,
       },
     ],
   },

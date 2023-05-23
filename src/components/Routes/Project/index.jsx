@@ -1,10 +1,9 @@
 import React, { useState, useEffect } from "react";
-import { useLocation, useParams } from "react-router-dom";
+import { useLocation, useParams, useSearchParams } from "react-router-dom";
 import { useData, useNavigation } from "@/stores";
 
 import styles from "./main.module.styl";
 import Galerie from "./galerie";
-import SidePanel from "./SidePanel";
 
 const dataQuery = `{
   list {
@@ -35,6 +34,47 @@ const dataQuery = `{
     }
   }
 }`;
+const shopQuery = `{
+  list {
+    __typename
+    id
+    name
+    subtitle
+    infos{
+      ... on RepeaterInfosPageArray {
+        list {
+          info_title
+          info_text
+        }
+      }
+    }
+    videos {
+      url
+      description
+    }
+    galerie {
+      width
+      height
+      url
+      description
+      variations{
+        url
+      }
+    }
+    ... on ProjectShopPage {
+      shop_galerie {
+        width
+        height
+        url
+        description
+        variations{
+          url
+        }
+      }
+      info_shop
+    }
+  }
+}`;
 
 const Project = ({}) => {
   const fetch = useData((state) => state.fetch);
@@ -43,14 +83,22 @@ const Project = ({}) => {
     useData((state) => {
       return { ...state.keys["INDEX"] };
     }) || {};
-  const [projectInfo, setProjectInfo] = useState();
   const [project, setProject] = useState();
-  const getProjectById = useData((state) => state.getProjectById);
   const getProjectBySlug = useData((state) => state.getProjectBySlug);
   const [type, setType] = useState();
   const sidePanelVisibility = useNavigation((state) => state.sidePanelIsActive);
   const activeMenu = useNavigation((state) => state.activeMenu);
   const resetOverlays = useNavigation((state) => state.resetAllOverlays);
+  const [searchParams, setSearchParams] = useSearchParams();
+  const location = useLocation()
+
+  useEffect(() => {
+  }, [location.search]);
+
+  const resetOverlaysAction = () => {
+    setSearchParams({});
+    resetOverlays();
+  };
 
   useEffect(() => {
     const __typename = getProjectBySlug(params?.projectName)?.["__typename"];
@@ -67,7 +115,9 @@ const Project = ({}) => {
     const id = _project?.["id"];
     if (!id || !type) return;
     const query = {
-      query: ` {${type}(s: "id=${id}")${dataQuery}}`,
+      query: ` {${type}(s: "id=${id}")${
+        type === "projectShop" ? shopQuery : dataQuery
+      }}`,
     };
     fetch(query, "INDEX", transformer);
   }, [type, params?.projectName]);
@@ -86,10 +136,21 @@ const Project = ({}) => {
   return (
     <div className={[styles.container].join(" ")}>
       <div
-        onClick={(sidePanelVisibility || activeMenu) && resetOverlays}
+        onClick={
+          sidePanelVisibility ||
+          activeMenu ||
+          searchParams.get("about") === "s" ||
+          searchParams.get("about") === "k"
+            ? resetOverlaysAction
+            : null
+        }
         className={[
           styles.wrapper,
-          (sidePanelVisibility || activeMenu) && styles.blur,
+          (sidePanelVisibility ||
+            activeMenu ||
+            searchParams.get("about") === "s" ||
+            searchParams.get("about") === "k") &&
+            styles.blur,
         ].join(" ")}
       >
         <Galerie
@@ -98,13 +159,6 @@ const Project = ({}) => {
           videos={project?.videos}
         />
       </div>
-      <SidePanel
-        label={project?.label}
-        subtitle={project?.subtitle}
-        infos={project?.infos}
-        type={project?.__typename}
-        id={project?.id}
-      />
     </div>
   );
 };
