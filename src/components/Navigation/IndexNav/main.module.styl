@@ -106,3 +106,25 @@
 .container > *
   -ms-overflow-style: none;  /* IE and Edge */
   scrollbar-width: none;  /* Firefox */
+
+.next
+.last
+    position absolute
+    top calc(50% + 15px)
+    background-color: white
+    z-index 1000
+    padding: 0.4rem
+    margin: auto
+    display: flex
+    cursor: pointer
+    @media _small
+        display: none
+    &:hover
+        background-color: var(--benj-yellow)
+.next 
+    right 0
+    left: unset
+.inactive
+    opacity 0.5
+    &:hover
+        background-color: white

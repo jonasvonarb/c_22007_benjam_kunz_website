@@ -6,6 +6,8 @@ import { useNavigate } from "react-router-dom";
 import Icon from "../../UI/Icon";
 import { LazyLoadImage } from "react-lazy-load-image-component";
 import "react-lazy-load-image-component/src/effects/black-and-white.css";
+import Chevron from "../../UI/Chevron";
+import { useMedia, useWindowSize } from "react-use";
 
 const query = {
   query: ` {
@@ -102,6 +104,10 @@ const IndexNav = ({}) => {
   const navigate = useNavigate();
   const groupRef = useRef();
 
+  const [currentPos, setCurrentpos] = useState(0);
+  const { width: w, height: h } = useWindowSize();
+  const isWide = useMedia("(min-width: 900px)");
+
   useEffect(() => {
     const transformer = (data) => {
       const _data = data.data.projects.first;
@@ -140,6 +146,32 @@ const IndexNav = ({}) => {
 
   const closeMenu = () => {
     setActiveMenu(null);
+  };
+
+  useEffect(()=> {
+    setCurrentpos(0);
+  },[JSON.stringify(activeGroup)])
+
+  const nextImage = () => {
+    const _curretnPos = groupRef.current.scrollLeft;
+    const dist = isWide ? w / 2 : (w / 5) * 4;
+    setCurrentpos(_curretnPos + dist);
+    groupRef.current.scroll({
+      top: 0,
+      left: _curretnPos + dist,
+      behavior: "smooth",
+    });
+  };
+  const lastImage = () => {
+    const _curretnPos = groupRef.current.scrollLeft;
+    if (_curretnPos <= 5) return;
+    const dist = isWide ? w / 2 : (w / 5) * 4;
+    setCurrentpos(_curretnPos - dist);
+    groupRef.current.scroll({
+      top: 0,
+      left: _curretnPos - w / 2,
+      behavior: "smooth",
+    });
   };
 
   const Header = () => {
@@ -215,6 +247,15 @@ const IndexNav = ({}) => {
       ].join(" ")}
     >
       {Header()}
+      <div
+        onClick={lastImage}
+        className={[styles.last, currentPos <= 20 && styles.inactive].join(" ")}
+      >
+        <Chevron left={true} />
+      </div>
+      <div onClick={nextImage} className={[styles.next].join(" ")}>
+        <Chevron />
+      </div>
       <div ref={groupRef} className={[styles.index].join(" ")}>
         {Object.keys(indexSorted).map(
           (groupName, index) =>

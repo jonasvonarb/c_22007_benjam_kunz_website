@@ -10,9 +10,9 @@
     &.blur
         opacity 0.1
     @media _small
-        height: 100%;
+        // height: 100%;
         height -moz-available;
-        height -webkit-fill-available;
+        // height -webkit-fill-available;
         height fill-available;
 
 
@@ -56,7 +56,7 @@
     background: white
     transition: opacity 0.5s
     @media _small
-        height: 100%;
+        height: 100vh;
         height -moz-available;
         height -webkit-fill-available;
         height fill-available;
@@ -115,8 +115,10 @@
         overflow-y: hidden;
         overscroll-behavior none
         @media _small
-            min-height: calc(100vh - 200px)
+            // min-height: calc(100vh - 200px)
+            // min-height: calc(-webkit-fill-available - 200px)
             height: calc(100vh - 200px)
+            height: calc(100% - 200px)
         .next
         .last
             position fixed
