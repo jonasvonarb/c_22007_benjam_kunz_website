@@ -44,6 +44,7 @@ const markdownToHtml = (source) => {
   renderer.link = function (href, title, text) {
     let host = window.location.host.replace("www.", "");
     var pathArray = href.split("/");
+    console.log("pathArray", pathArray);
     let targetHost = pathArray?.[2]?.replace("www.", "");
 
     let target = targetHost !== host ? "_blank" : "_self";
@@ -66,7 +67,9 @@ const markdownToJSX = (source, { className }) => {
   renderer.link = function (href, title, text) {
     let host = window.location.host.replace("www.", "");
     var pathArray = href.split("/");
-    let targetHost = pathArray[2].replace("www.", "");
+    console.log("pathArray", pathArray);
+
+    let targetHost = pathArray[2]?.replace("www.", "");
 
     let target = targetHost !== host ? "_blank" : "_self";
     return `<a target="${target}" rel="noreferrer"
